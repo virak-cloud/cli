@@ -62,7 +62,7 @@ nfpms:
       {{ .ProjectName }}_{{ .Version }}_{{ .Arch }}
     formats: [deb]
     maintainer: "Virak Cloud <support@virak.cloud>"
-    homepage: "https://github.com/virak-cloud/cli-dev"
+    homepage: "https://github.com/virak-cloud/cli"
     description: "Virak CLI – manage Virak Cloud from your terminal."
     license: "MIT"
     section: "utils"
