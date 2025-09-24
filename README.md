@@ -54,7 +54,7 @@ To get a local copy up and running follow these simple steps.
 
 #### From Releases
 
-Download the latest release from [GitHub Releases](https://github.com/virak-cloud/cli-dev/releases).
+Download the latest release from [GitHub Releases](https://github.com/virak-cloud/cli/releases).
 
 Choose the appropriate binary for your platform:
 
@@ -116,7 +116,7 @@ Alternatively, you can use the Windows archive (.zip) - extract it and follow th
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/virak-cloud/cli-dev.git
+   git clone https://github.com/virak-cloud/cli.git
    ```
 2. Build the project
    ```sh
@@ -125,7 +125,7 @@ Alternatively, you can use the Windows archive (.zip) - extract it and follow th
 
 Alternatively, you can use `go install`:
 ```sh
-go install github.com/virak-cloud/cli-dev@latest
+go install github.com/virak-cloud/cli@latest
 ```
 
 ## Usage
