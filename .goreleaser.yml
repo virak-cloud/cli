@@ -1,0 +1,92 @@
+# .goreleaser.yaml
+version: 2
+
+project_name: virak-cli
+
+
+
+builds:
+  - id: virak
+    main: ./main.go
+    binary: virak-cli
+    env:
+      - CGO_ENABLED=0
+      - GOFLAGS=-buildvcs=false
+    goos: [linux, windows, darwin]
+    goarch: [amd64, arm64]
+    flags:
+      - -trimpath
+    ldflags: "-s -w{{- if (index .Env \"LOGIN_URL\") }} -X virak-cli/pkg.LoginUrl={{.Env.LOGIN_URL}}{{- end }}{{- if (index .Env \"BASE_URL\") }} -X virak-cli/pkg.BaseUrl={{.Env.BASE_URL}}{{- end }}"
+    hooks:
+      pre:
+        - go mod download
+
+archives:
+  - formats: [binary]
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+  # Zip Windows so users get a single downloadable artifact with the .exe.
+  - id: windows-archives
+    formats: [zip]
+    ids: [virak]
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+    wrap_in_directory: false
+    # Only Windows in this archive rule
+    allow_different_binary_count: true
+    files:
+      - license*
+      - LICENSE*
+      - README*
+    format_overrides:
+      - goos: windows
+        formats: ['zip']
+
+  # Tar.gz for non-Windows (optional but common)
+  - id: other-archives
+    formats: [tar.gz]
+    ids: [virak]
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+    wrap_in_directory: false
+    allow_different_binary_count: true
+    files:
+      - license*
+      - LICENSE*
+      - README*
+
+nfpms:
+  - id: deb
+    package_name: virak-cli
+    file_name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Arch }}
+    formats: [deb]
+    maintainer: "Virak Cloud <support@virak.cloud>"
+    homepage: "https://github.com/virak-cloud/cli-dev"
+    description: "Virak CLI – manage Virak Cloud from your terminal."
+    license: "MIT"
+    section: "utils"
+    priority: "optional"
+    bindir: /usr/local/bin
+    # contents:
+      # Optional: install shell completions or man pages, if you generate them
+      # - src: ./completions/virak-cli.bash
+      #   dst: /etc/bash_completion.d/virak-cli
+    # dependencies:
+      # Add runtime deps if you truly need any
+      # - "ca-certificates"
+    # overrides:
+    #   files:
+    #     # Install the correct binary into /usr/local/bin for linux/amd64, linux/arm64
+    #     # GoReleaser handles mapping the right build artifact to the package.
+    #     - src: ./dist/virak-cli_{{ .Version }}_linux_{{ .Arch }}/virak-cli
+    #       dst: /usr/local/bin/virak-cli
+
+release:
+  # Create GitHub Release entries with all artifacts attached
+  draft: false
+  prerelease: "false"
+  mode: replace
+
+changelog:
+  use: github

@@ -1,0 +1,120 @@
+package instance
+
+import (
+	"bufio"
+	"fmt"
+	"log/slog"
+	"os"
+	"strconv"
+	"strings"
+	"virak-cli/internal/cli"
+	"virak-cli/pkg/http"
+	"virak-cli/pkg/http/responses"
+
+	"github.com/spf13/cobra"
+)
+
+type stopOptions struct {
+	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
+	ZoneID      string `flag:"zoneId" usage:"Zone ID to use"`
+	InstanceID  string `flag:"instance-id" usage:"ID of the instance to stop"`
+	Forced      bool   `flag:"forced" usage:"Force stop the instance"`
+	Interactive bool   `flag:"interactive" usage:"Run interactive instance stop workflow"`
+}
+
+var stopOpt stopOptions
+
+var instanceStopCmd = &cobra.Command{
+	Use:   "stop",
+	Short: "Stop a running instance",
+	PreRunE: func(cmd *cobra.Command, args []string) error {
+		if err := cli.Preflight(true)(cmd, args); err != nil {
+			return err
+		}
+
+		interactive, _ := cmd.Flags().GetBool("interactive")
+		if !interactive {
+			return cli.Validate(cmd,
+				cli.Required("instance-id"),
+			)
+		}
+		return nil
+	},
+	RunE: func(cmd *cobra.Command, args []string) error {
+		token := cli.TokenFromContext(cmd.Context())
+		zoneID := cli.ZoneIDFromContext(cmd.Context())
+
+		if err := cli.LoadFromCobraFlags(cmd, &stopOpt); err != nil {
+			return err
+		}
+
+		httpClient := http.NewClient(token)
+		instanceID := stopOpt.InstanceID
+
+		if stopOpt.Interactive {
+			instanceListResp, err := httpClient.ListInstances(zoneID)
+			if err != nil || instanceListResp == nil || len(instanceListResp.Data) == 0 {
+				slog.Error("failed to fetch instances", "error", err)
+				return fmt.Errorf("could not fetch instances or no instances found in this zone")
+			}
+
+			// Filter: only instances with status == "UP" are selectable
+			var selectable []responses.Instance
+			for _, inst := range instanceListResp.Data {
+				if strings.ToUpper(inst.Status) == "UP" {
+					selectable = append(selectable, inst)
+				}
+			}
+			if len(selectable) == 0 {
+				fmt.Println("No running instances (status: UP) available to stop in this zone.")
+				return nil
+			}
+
+			fmt.Println("Select an instance to stop:")
+			for i, inst := range selectable {
+				fmt.Printf("%d) %s (ID: %s, Status: %s)\n", i+1, inst.Name, inst.ID, inst.Status)
+			}
+			var instIdx int
+			reader := bufio.NewReader(os.Stdin)
+			for {
+				fmt.Print("Enter number: ")
+				input, _ := reader.ReadString('\n')
+				input = strings.TrimSpace(input)
+				idx, err := strconv.Atoi(input)
+				if err == nil && idx > 0 && idx <= len(selectable) {
+					instIdx = idx - 1
+					break
+				}
+				fmt.Println("Invalid selection. Try again.")
+			}
+			selected := selectable[instIdx]
+			instanceID = selected.ID
+
+			fmt.Printf("You have selected: %s (ID: %s)\n", selected.Name, selected.ID)
+			fmt.Print("Proceed with stop? (y/n): ")
+			confirm, _ := reader.ReadString('\n')
+			confirm = strings.TrimSpace(confirm)
+			if strings.ToLower(confirm) != "y" {
+				fmt.Println("Aborted.")
+				return nil
+			}
+		}
+
+		resp, err := httpClient.StopInstance(zoneID, instanceID, stopOpt.Forced)
+		if err != nil {
+			slog.Error("failed to stop instance", "error", err, "zoneID", zoneID, "instanceID", instanceID)
+			return fmt.Errorf("failed to stop instance: %w", err)
+		}
+		if resp.Data.Success {
+			fmt.Println("Instance stop request accepted.")
+		} else {
+			fmt.Println("Instance stop failed.")
+		}
+		return nil
+	},
+}
+
+func init() {
+	InstanceCmd.AddCommand(instanceStopCmd)
+	_ = cli.BindFlagsFromStruct(instanceStopCmd, &stopOpt)
+}

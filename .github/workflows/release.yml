@@ -1,0 +1,94 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GO_VERSION: '1.24'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+          cache: true
+      - name: Install GoReleaser
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          version: '~> v2'
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LOGIN_URL: ${{ vars.LOGIN_URL }}
+          BASE_URL: ${{ vars.BASE_URL }}
+          GORELEASER_CURRENT_TAG: ${{ github.ref_name }}
+
+      - name: Cache Go build cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/go-build
+          key: ${{ runner.os }}-gobuild-${{ hashFiles('**/go.sum') }}-${{ env.GO_VERSION }}
+          restore-keys: ${{ runner.os }}-gobuild-
+
+      - name: Cache Go module cache
+        uses: actions/cache@v4
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-gomod-${{ hashFiles('**/go.sum') }}-${{ env.GO_VERSION }}
+          restore-keys: ${{ runner.os }}-gomod-
+
+  build-summary:
+    needs: build
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Generate Build Summary
+        run: |
+          echo "## 🚀 Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository:** ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Workflow:** ${{ github.workflow }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Run ID:** ${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Triggered by:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📦 Build Matrix" >> $GITHUB_STEP_SUMMARY
+          echo "- **Platforms:** Linux, Windows, macOS (handled by GoReleaser)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Architectures:** AMD64, ARM64 (handled by GoReleaser)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Go Version:** 1.24" >> $GITHUB_STEP_SUMMARY
+          echo "- **CGO:** Disabled" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build flags:** -trimpath -ldflags '-s -w -X pkg.LoginUrl={{ vars.LOGIN_URL }} -X pkg.BaseUrl={{ vars.BASE_URL }}'" >> $GITHUB_STEP_SUMMARY
+          echo "- **LOGIN_URL:** ${{ vars.LOGIN_URL }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **BASE_URL:** ${{ vars.BASE_URL }}" >> $GITHUB_STEP_SUMMARY
+
+          echo "### ✅ Build Status" >> $GITHUB_STEP_SUMMARY
+          echo "| Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ needs.build.result }}" = "success" ]; then
+            echo "| ✅ Success |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| ❌ Failed |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔗 Links" >> $GITHUB_STEP_SUMMARY
+          echo "- [Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+          echo "- [Repository](${{ github.server_url }}/${{ github.repository }})" >> $GITHUB_STEP_SUMMARY
