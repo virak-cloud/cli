@@ -11,8 +11,7 @@ import (
 )
 
 type scaleOptions struct {
-	DefaultZone    bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID         string `flag:"zoneId" usage:"Zone ID"`
+	ZoneID         string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 	ClusterID      string `flag:"clusterId" usage:"Cluster ID"`
 	AutoScaling    bool   `flag:"auto-scaling" usage:"Enable auto scaling"`
 	ClusterSize    int    `flag:"cluster-size" usage:"Cluster size (required if auto-scaling is false)"`

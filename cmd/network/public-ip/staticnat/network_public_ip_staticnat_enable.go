@@ -10,8 +10,7 @@ import (
 )
 
 type enableStaticIpOptions struct {
-	DefaultZone       bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID            string `flag:"zoneId" usage:"Zone ID to use"`
+	ZoneID            string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 	NetworkID         string `flag:"networkId" usage:"Network ID"`
 	NetworkPublicIPID string `flag:"networkPublicIpId" usage:"Network Public IP ID"`
 	InstanceID        string `flag:"instanceId" usage:"Instance ID"`

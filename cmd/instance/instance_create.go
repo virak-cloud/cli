@@ -17,8 +17,7 @@ import (
 )
 
 type instanceCreateOptions struct {
-	DefaultZone       bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID            string `flag:"zoneId" usage:"Zone ID to use"`
+	ZoneID            string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 	ServiceOfferingID string `flag:"service-offering-id" usage:"ID of the service offering"`
 	VMImageID         string `flag:"vm-image-id" usage:"ID of the VM image"`
 	NetworkIDsRaw     string `flag:"network-ids" usage:"JSON array of network IDs, e.g. '[\"id1\",\"id2\"]'"`

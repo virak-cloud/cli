@@ -14,8 +14,7 @@ import (
 )
 
 type volumeDetachOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID to use"`
+	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 	VolumeID    string `flag:"volumeId" usage:"Volume ID"`
 	InstanceID  string `flag:"instanceId" usage:"Instance ID"`
 	Interactive bool   `flag:"interactive" usage:"Interactively select volume and instance to detach"`

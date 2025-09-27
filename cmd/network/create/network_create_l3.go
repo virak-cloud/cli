@@ -11,8 +11,7 @@ import (
 )
 
 type createL3NetworkOptions struct {
-	ZoneID            string `flag:"zoneId" usage:"Zone ID"`
-	DefaultZone       bool   `flag:"default-zone" usage:"Use default zone"`
+	ZoneID            string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 	NetworkOfferingID string `flag:"network-offering-id" usage:"Network offering ID"`
 	Name              string `flag:"name" usage:"Network name"`
 	Gateway           string `flag:"gateway" usage:"Gateway IP address"`

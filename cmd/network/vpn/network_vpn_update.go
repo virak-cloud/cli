@@ -12,9 +12,8 @@ import (
 )
 
 type vpnUpdateOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default zone from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID"`
-	NetworkID   string `flag:"networkId" usage:"Network ID for the VPN"`
+	ZoneID    string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
+	NetworkID string `flag:"networkId" usage:"Network ID for the VPN"`
 }
 
 var vpnUpdateOpts vpnUpdateOptions

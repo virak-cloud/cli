@@ -11,9 +11,8 @@ import (
 )
 
 type deleteOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID to use"`
-	BucketID    string `flag:"bucketId" usage:"Id of the bucket"`
+	ZoneID   string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	BucketID string `flag:"bucketId" usage:"Id of the bucket"`
 }
 
 var deleteOpt deleteOptions

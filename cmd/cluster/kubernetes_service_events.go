@@ -13,8 +13,7 @@ import (
 )
 
 type serviceEventsOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID"`
+	ZoneID string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
 }
 
 var serviceEventsOpts serviceEventsOptions

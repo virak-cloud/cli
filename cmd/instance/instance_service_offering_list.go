@@ -15,10 +15,9 @@ import (
 )
 
 type serviceOfferingListOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID to use"`
-	Available   bool   `flag:"available" usage:"Show only available service offerings"`
-	Columns     string `flag:"columns" usage:"Comma-separated list of columns to display"`
+	ZoneID    string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	Available bool   `flag:"available" usage:"Show only available service offerings"`
+	Columns   string `flag:"columns" usage:"Comma-separated list of columns to display"`
 }
 
 var soListOpt serviceOfferingListOptions

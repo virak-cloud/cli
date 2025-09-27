@@ -12,8 +12,7 @@ import (
 
 // Step 1: Define options struct
 type networkInstanceDisconnectOptions struct {
-	ZoneID            string `flag:"zoneId" usage:"Zone ID"`
-	DefaultZone       bool   `flag:"default-zone" usage:"Use default zone"`
+	ZoneID            string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 	NetworkID         string `flag:"networkId" usage:"Network ID"`
 	InstanceID        string `flag:"instanceId" usage:"Instance ID"`
 	InstanceNetworkID string `flag:"instanceNetworkId" usage:"Instance Network ID"`

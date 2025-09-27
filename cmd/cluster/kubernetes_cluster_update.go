@@ -11,8 +11,7 @@ import (
 )
 
 type updateOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID"`
+	ZoneID      string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
 	ClusterID   string `flag:"clusterId" usage:"Cluster ID"`
 	Name        string `flag:"name" usage:"New cluster name"`
 	Description string `flag:"description" usage:"New cluster description"`

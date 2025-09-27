@@ -11,10 +11,9 @@ import (
 )
 
 type updateOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID to use"`
-	BucketID    string `flag:"bucketId" usage:"Id of the bucket"`
-	Policy      string `flag:"policy" default:"Private" usage:"Policy (Private|Public)"`
+	ZoneID   string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	BucketID string `flag:"bucketId" usage:"Id of the bucket"`
+	Policy   string `flag:"policy" default:"Private" usage:"Policy (Private|Public)"`
 }
 
 var updateOpt updateOptions

@@ -11,10 +11,9 @@ import (
 )
 
 type firewallIPv6DeleteOptions struct {
-	DefaultZone bool   `flag:"default-zone" desc:"Use default zone from config"`
-	ZoneId      string `flag:"zoneId" desc:"Zone ID"`
-	NetworkId   string `flag:"networkId" desc:"Network ID (required)"`
-	RuleId      string `flag:"ruleId" desc:"Firewall Rule ID (required)"`
+	ZoneId    string `flag:"zoneId" desc:"Zone ID (optional if default.zoneId is set in config)"`
+	NetworkId string `flag:"networkId" desc:"Network ID (required)"`
+	RuleId    string `flag:"ruleId" desc:"Firewall Rule ID (required)"`
 }
 
 var firewallIPv6DeleteOpts firewallIPv6DeleteOptions

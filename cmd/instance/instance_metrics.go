@@ -12,12 +12,11 @@ import (
 )
 
 type metricsOptions struct {
-	DefaultZone bool     `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string   `flag:"zoneId" usage:"Zone ID to use"`
-	InstanceID  string   `flag:"instanceId" usage:"Instance ID"`
-	Metrics     []string `flag:"metrics" usage:"Metrics to query"`
-	Time        int      `flag:"time" default:"1" usage:"Time window"`
-	Aggregator  string   `flag:"aggregator" default:"mean" usage:"Aggregator"`
+	ZoneID     string   `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	InstanceID string   `flag:"instanceId" usage:"Instance ID"`
+	Metrics    []string `flag:"metrics" usage:"Metrics to query"`
+	Time       int      `flag:"time" default:"1" usage:"Time window"`
+	Aggregator string   `flag:"aggregator" default:"mean" usage:"Aggregator"`
 }
 
 var metricsOpt metricsOptions

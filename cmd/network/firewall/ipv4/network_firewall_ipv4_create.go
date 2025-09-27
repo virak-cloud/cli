@@ -12,8 +12,7 @@ import (
 )
 
 type firewallIPv4CreateOptions struct {
-	DefaultZone   bool   `flag:"default-zone" desc:"Use default zone from config"`
-	ZoneID        string `flag:"zoneId" desc:"Zone ID"`
+	ZoneID        string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 	NetworkID     string `flag:"networkId" desc:"Network ID (required)"`
 	TrafficType   string `flag:"trafficType" desc:"Traffic type (Ingress/Egress) [required]"`
 	ProtocolType  string `flag:"protocolType" desc:"Protocol type (TCP/UDP/ICMP) [required]"`

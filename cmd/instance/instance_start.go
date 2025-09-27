@@ -15,8 +15,7 @@ import (
 )
 
 type startOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID to use"`
+	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 	InstanceID  string `flag:"instance-id" usage:"ID of the instance to start"`
 	Interactive bool   `flag:"interactive" usage:"Run interactive instance start workflow"`
 }

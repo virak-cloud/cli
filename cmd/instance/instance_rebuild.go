@@ -10,10 +10,9 @@ import (
 )
 
 type rebuildOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID to use"`
-	InstanceID  string `flag:"instance-id" usage:"ID of the instance to rebuild"`
-	VMImageID   string `flag:"vm-image-id" usage:"ID of the new VM image"`
+	ZoneID     string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	InstanceID string `flag:"instance-id" usage:"ID of the instance to rebuild"`
+	VMImageID  string `flag:"vm-image-id" usage:"ID of the new VM image"`
 }
 
 var rebuildOpt rebuildOptions

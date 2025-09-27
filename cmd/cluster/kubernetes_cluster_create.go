@@ -11,8 +11,7 @@ import (
 )
 
 type createOptions struct {
-	DefaultZone             bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID                  string `flag:"zoneId" usage:"Zone ID"`
+	ZoneID                  string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 	Name                    string `flag:"name" usage:"Cluster name"`
 	VersionID               string `flag:"versionId" usage:"Kubernetes version ID"`
 	OfferingID              string `flag:"offeringId" usage:"Service offering ID"`

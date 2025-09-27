@@ -13,9 +13,8 @@ import (
 )
 
 type showOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID"`
-	ClusterID   string `flag:"clusterId" usage:"Cluster ID"`
+	ZoneID    string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
+	ClusterID string `flag:"clusterId" usage:"Cluster ID"`
 }
 
 var showOpts showOptions

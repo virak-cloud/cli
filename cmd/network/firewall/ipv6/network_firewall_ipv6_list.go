@@ -13,9 +13,8 @@ import (
 )
 
 type firewallIPv6ListOptions struct {
-	DefaultZone bool   `flag:"default-zone" desc:"Use default zone from config"`
-	ZoneId      string `flag:"zoneId" desc:"Zone ID"`
-	NetworkId   string `flag:"networkId" desc:"Network ID (required)"`
+	ZoneId    string `flag:"zoneId" desc:"Zone ID (optional if default.zoneId is set in config)"`
+	NetworkId string `flag:"networkId" desc:"Network ID (required)"`
 }
 
 var firewallIPv6ListOpts firewallIPv6ListOptions

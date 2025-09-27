@@ -19,8 +19,7 @@ var instanceVolumeCmd = &cobra.Command{
 }
 
 type volumeCreateOptions struct {
-	DefaultZone       bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID            string `flag:"zoneId" usage:"Zone ID to use"`
+	ZoneID            string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 	ServiceOfferingID string `flag:"serviceOfferingId" usage:"Service Offering ID"`
 	Size              int    `flag:"size" usage:"Volume size (GB)"`
 	Name              string `flag:"name" usage:"Volume name"`

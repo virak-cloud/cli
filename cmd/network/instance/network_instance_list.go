@@ -13,10 +13,9 @@ import (
 
 // networkInstanceListOptions holds the flags for the 'network instance list' command.
 type networkInstanceListOptions struct {
-	ZoneID      string `flag:"zoneId" usage:"Zone ID"`
-	DefaultZone bool   `flag:"default-zone" usage:"Use default zone"`
-	NetworkID   string `flag:"networkId" usage:"Network ID"`
-	InstanceID  string `flag:"instanceId" usage:"Instance ID"`
+	ZoneID     string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
+	NetworkID  string `flag:"networkId" usage:"Network ID"`
+	InstanceID string `flag:"instanceId" usage:"Instance ID"`
 }
 
 var networkInstanceListOpt networkInstanceListOptions

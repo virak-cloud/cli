@@ -11,8 +11,7 @@ import (
 )
 
 type zoneResourcesOptions struct {
-	DefaultZone bool   `flag:"default-zone" desc:"Use default.zoneId from config instead of providing zoneId argument"`
-	ZoneID      string `flag:"zoneId" desc:"Zone ID to use (overrides positional argument if set)"`
+	ZoneID string `flag:"zoneId" desc:"Zone ID to use (optional if default.zoneId is set in config, overrides positional argument if set)"`
 }
 
 var resourcesOpt zoneResourcesOptions

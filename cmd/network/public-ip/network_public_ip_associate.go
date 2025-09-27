@@ -11,9 +11,8 @@ import (
 )
 
 type associateOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID to use"`
-	NetworkID   string `flag:"networkId" usage:"Network ID to associate the public IP with"`
+	ZoneID    string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	NetworkID string `flag:"networkId" usage:"Network ID to associate the public IP with"`
 }
 
 var associateOpts associateOptions

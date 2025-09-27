@@ -13,8 +13,7 @@ import (
 )
 
 type volumeServiceOfferingListOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID to use"`
+	ZoneID string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 }
 
 var volumeSoListOpt volumeServiceOfferingListOptions

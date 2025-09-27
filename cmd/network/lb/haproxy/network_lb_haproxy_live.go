@@ -10,9 +10,8 @@ import (
 )
 
 type lbHaproxyLiveOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID to use"`
-	NetworkID   string `flag:"networkId" usage:"Network ID for the load balancer"`
+	ZoneID    string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	NetworkID string `flag:"networkId" usage:"Network ID for the load balancer"`
 }
 
 var lbHaproxyLiveOpts lbHaproxyLiveOptions

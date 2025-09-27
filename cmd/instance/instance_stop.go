@@ -15,8 +15,7 @@ import (
 )
 
 type stopOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID to use"`
+	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 	InstanceID  string `flag:"instance-id" usage:"ID of the instance to stop"`
 	Forced      bool   `flag:"forced" usage:"Force stop the instance"`
 	Interactive bool   `flag:"interactive" usage:"Run interactive instance stop workflow"`

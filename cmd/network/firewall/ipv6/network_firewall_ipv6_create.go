@@ -11,8 +11,7 @@ import (
 )
 
 type NetworkFirewallIPv6CreateOptions struct {
-	DefaultZone   bool   `flag:"default-zone"`
-	ZoneID        string `flag:"zoneId"`
+	ZoneID        string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 	NetworkID     string `flag:"networkId"`
 	TrafficType   string `flag:"trafficType"`
 	ProtocolType  string `flag:"protocolType"`

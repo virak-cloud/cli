@@ -38,16 +38,12 @@ func Preflight(zoneRequired bool) func(cmd *cobra.Command, args []string) error 
 			return fmt.Errorf("you must be logged in to use this command. Please run 'virak-cli login' first")
 		}
 
-		defaultZoneFlag, _ := cmd.Flags().GetBool("default-zone")
 		zoneId, _ := cmd.Flags().GetString("zoneId")
 
 		if zoneRequired {
-			if defaultZoneFlag {
-				zoneId = viper.GetString("default.zoneId")
-				if zoneId == "" {
-					slog.Error("--default-zone flag used but no default.zoneId found in config")
-					return fmt.Errorf("--default-zone flag used but no default.zoneId found in config")
-				}
+			// Always try to use the default zoneId from config if set
+			if defaultZoneId := viper.GetString("default.zoneId"); defaultZoneId != "" {
+				zoneId = defaultZoneId
 			} else if zoneId == "" {
 				slog.Error("--zoneId flag required when --default-zone not set")
 				return fmt.Errorf("--zoneId flag required when --default-zone not set")

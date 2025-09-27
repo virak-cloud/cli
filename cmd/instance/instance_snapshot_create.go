@@ -20,8 +20,7 @@ var instanceSnapshotCmd = &cobra.Command{
 }
 
 type snapshotCreateOptions struct {
-	DefaultZone bool   `flag:"default-zone" usage:"Use default.zoneId from config"`
-	ZoneID      string `flag:"zoneId" usage:"Zone ID to use"`
+	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 	InstanceID  string `flag:"instanceId" usage:"Instance ID"`
 	Name        string `flag:"name" usage:"Snapshot name"`
 	Interactive bool   `flag:"interactive" usage:"Prompt for required fields interactively"`
