@@ -18,6 +18,12 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "A list of all available zones",
 	Long:  `Get a list of all available zones from Virak API.`,
+	PreRunE: func(cmd *cobra.Command, args []string) error {
+		if err := cli.Preflight(false)(cmd, args); err != nil {
+			return err
+		}
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, args []string) error {
 		token := cli.TokenFromContext(cmd.Context())
 		httpClient := http.NewClient(token)
