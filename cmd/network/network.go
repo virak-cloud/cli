@@ -1,13 +1,13 @@
 package network
 
 import (
-	"virak-cli/cmd/network/create"
-	"virak-cli/cmd/network/firewall"
-	"virak-cli/cmd/network/instance"
-	"virak-cli/cmd/network/lb"
-	publicip "virak-cli/cmd/network/public-ip"
+	"github.com/virak-cloud/cli/cmd/network/create"
+	"github.com/virak-cloud/cli/cmd/network/firewall"
+	"github.com/virak-cloud/cli/cmd/network/instance"
+	"github.com/virak-cloud/cli/cmd/network/lb"
+	publicip "github.com/virak-cloud/cli/cmd/network/public-ip"
 
-	"virak-cli/cmd/network/vpn"
+	"github.com/virak-cloud/cli/cmd/network/vpn"
 
 	"github.com/spf13/cobra"
 )

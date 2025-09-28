@@ -5,8 +5,8 @@ import (
 	"log/slog"
 	"os"
 
-	"virak-cli/internal/cli"
-	http "virak-cli/pkg/http"
+	"github.com/virak-cloud/cli/internal/cli"
+	http "github.com/virak-cloud/cli/pkg/http"
 
 	"github.com/olekukonko/tablewriter"
 

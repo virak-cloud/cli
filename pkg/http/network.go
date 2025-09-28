@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"net/http"
 
-	urls "virak-cli/pkg"
-	"virak-cli/pkg/http/responses"
+	urls "github.com/virak-cloud/cli/pkg"
+	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
 func (client *Client) CreateL3Network(zoneId, networkOfferingId, name, gateway, netmask string) (*responses.NetworkCreateResponse, error) {

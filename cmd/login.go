@@ -3,11 +3,11 @@ package cmd
 import (
 	"bufio"
 	"fmt"
+	urls "github.com/virak-cloud/cli/pkg"
+	"github.com/virak-cloud/cli/pkg/http"
 	"log/slog"
 	"os"
 	"strings"
-	urls "virak-cli/pkg"
-	"virak-cli/pkg/http"
 
 	"github.com/denisbrodbeck/machineid"
 	"github.com/pkg/browser"

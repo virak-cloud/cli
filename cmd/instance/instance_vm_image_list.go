@@ -8,9 +8,9 @@ import (
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 
-	"virak-cli/internal/cli"
-	"virak-cli/pkg/http"
-	"virak-cli/pkg/http/responses"
+	"github.com/virak-cloud/cli/internal/cli"
+	"github.com/virak-cloud/cli/pkg/http"
+	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
 type vmImageListOptions struct {

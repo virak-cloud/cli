@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	urls "github.com/virak-cloud/cli/pkg"
+	"github.com/virak-cloud/cli/pkg/http/responses"
 	"net/http"
-	urls "virak-cli/pkg"
-	"virak-cli/pkg/http/responses"
 )
 
 // User-related API methods for the Client

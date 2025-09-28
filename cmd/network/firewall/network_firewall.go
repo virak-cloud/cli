@@ -3,8 +3,8 @@ package firewall
 import (
 	"github.com/spf13/cobra"
 
-	ipv4 "virak-cli/cmd/network/firewall/ipv4"
-	ipv6 "virak-cli/cmd/network/firewall/ipv6"
+	ipv4 "github.com/virak-cloud/cli/cmd/network/firewall/ipv4"
+	ipv6 "github.com/virak-cloud/cli/cmd/network/firewall/ipv6"
 )
 
 var NetworkFirewallCmd = &cobra.Command{

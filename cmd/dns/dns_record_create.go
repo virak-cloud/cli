@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"virak-cli/internal/cli"
-	"virak-cli/pkg/http"
+	"github.com/virak-cloud/cli/internal/cli"
+	"github.com/virak-cloud/cli/pkg/http"
 )
 
 type recordCreateOptions struct {

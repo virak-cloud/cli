@@ -2,10 +2,10 @@ package instance
 
 import (
 	"fmt"
+	"github.com/virak-cloud/cli/internal/cli"
+	"github.com/virak-cloud/cli/pkg/http"
 	"log/slog"
 	"strings"
-	"virak-cli/internal/cli"
-	"virak-cli/pkg/http"
 
 	"github.com/spf13/cobra"
 )

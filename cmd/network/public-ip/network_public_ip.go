@@ -3,7 +3,7 @@ package publicip
 import (
 	"github.com/spf13/cobra"
 
-	staticnat "virak-cli/cmd/network/public-ip/staticnat"
+	staticnat "github.com/virak-cloud/cli/cmd/network/public-ip/staticnat"
 )
 
 // NetworkPublicIPCmd represents the public IP command group

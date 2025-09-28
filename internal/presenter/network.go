@@ -1,8 +1,8 @@
 package presenter
 
 import (
+	"github.com/virak-cloud/cli/pkg/http/responses"
 	"os"
-	"virak-cli/pkg/http/responses"
 
 	"github.com/olekukonko/tablewriter"
 )

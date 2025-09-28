@@ -8,8 +8,8 @@ import (
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 
-	"virak-cli/internal/cli"
-	"virak-cli/pkg/http"
+	"github.com/virak-cloud/cli/internal/cli"
+	"github.com/virak-cloud/cli/pkg/http"
 )
 
 type firewallIPv4ListOptions struct {

@@ -6,7 +6,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"virak-cli/pkg/http/responses"
+
+	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
 type Client struct {

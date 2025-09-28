@@ -3,7 +3,7 @@ package lb
 import (
 	"github.com/spf13/cobra"
 
-	haproxy "virak-cli/cmd/network/lb/haproxy"
+	haproxy "github.com/virak-cloud/cli/cmd/network/lb/haproxy"
 )
 
 // NetworkLbCmd is the root command for network load balancer operations.

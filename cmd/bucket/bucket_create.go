@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"virak-cli/internal/cli"
-	httpc "virak-cli/pkg/http"
+	"github.com/virak-cloud/cli/internal/cli"
+	httpc "github.com/virak-cloud/cli/pkg/http"
 )
 
 type createOptions struct {

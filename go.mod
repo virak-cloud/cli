@@ -1,4 +1,4 @@
-module virak-cli
+module github.com/virak-cloud/cli
 
 go 1.24.4
 

@@ -2,11 +2,11 @@ package bucket
 
 import (
 	"fmt"
+	"github.com/virak-cloud/cli/internal/cli"
+	"github.com/virak-cloud/cli/internal/presenter"
 	"log/slog"
-	"virak-cli/internal/cli"
-	"virak-cli/internal/presenter"
 
-	"virak-cli/pkg/http"
+	"github.com/virak-cloud/cli/pkg/http"
 
 	"github.com/spf13/cobra"
 )

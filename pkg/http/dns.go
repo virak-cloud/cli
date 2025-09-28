@@ -7,9 +7,9 @@ import (
 	"net/http"
 	s "strings"
 
-	urls "virak-cli/pkg"
+	urls "github.com/virak-cloud/cli/pkg"
 
-	"virak-cli/pkg/http/responses"
+	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
 func (client *Client) GetDomains() (*responses.DomainList, error) {

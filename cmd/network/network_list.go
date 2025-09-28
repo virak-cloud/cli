@@ -2,10 +2,10 @@ package network
 
 import (
 	"fmt"
+	"github.com/virak-cloud/cli/internal/cli"
+	"github.com/virak-cloud/cli/internal/presenter"
+	"github.com/virak-cloud/cli/pkg/http"
 	"log/slog"
-	"virak-cli/internal/cli"
-	"virak-cli/internal/presenter"
-	"virak-cli/pkg/http"
 
 	"github.com/spf13/cobra"
 )

@@ -4,7 +4,7 @@ Copyright © 2025 Amin Sharifi moaminsharifi@duck.com
 package main
 
 import (
-	"virak-cli/cmd"
+	"github.com/virak-cloud/cli/cmd"
 )
 
 func main() {

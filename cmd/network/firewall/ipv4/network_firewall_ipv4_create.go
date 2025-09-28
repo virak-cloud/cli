@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log/slog"
 
-	"virak-cli/pkg/http"
+	"github.com/virak-cloud/cli/pkg/http"
 
-	"virak-cli/internal/cli"
+	"github.com/virak-cloud/cli/internal/cli"
 
 	"github.com/spf13/cobra"
 )

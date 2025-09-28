@@ -2,9 +2,9 @@ package http
 
 import (
 	"fmt"
+	urls "github.com/virak-cloud/cli/pkg"
+	"github.com/virak-cloud/cli/pkg/http/responses"
 	"net/http"
-	urls "virak-cli/pkg"
-	"virak-cli/pkg/http/responses"
 )
 
 // GetZoneList fetches the list of zones and returns a ZoneListResponse struct.

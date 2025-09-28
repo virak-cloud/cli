@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	urls "github.com/virak-cloud/cli/pkg"
 	"net/http"
-	urls "virak-cli/pkg"
 
-	"virak-cli/pkg/http/responses"
+	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
 func (client *Client) GetObjectStorageBuckets(zoneId string) (*responses.ObjectStorageBucketsResponse, error) {
