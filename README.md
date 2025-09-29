@@ -2,6 +2,8 @@
 
 A command-line interface for interacting with the [Virak Cloud API](https://api-docs.virakcloud.com/), built with the Go programming language.
 
+
+[![Go Reference](https://pkg.go.dev/badge/github.com/virak-cloud/cli.svg)](https://pkg.go.dev/github.com/virak-cloud/cli)
 [![VirakCloud](https://img.shields.io/badge/VirakCloud-Site-blue)](https://virakcloud.com)
 [![Public API](https://img.shields.io/badge/Public_API-Docs-green)](https://api-docs.virakcloud.com/)
 [![Service Document](https://img.shields.io/badge/Service_Document-Guides-orange)](https://docs.virakcloud.com/en/guides/)
