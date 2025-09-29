@@ -19,6 +19,7 @@ builds:
     ldflags: "-s -w{{- if (index .Env \"LOGIN_URL\") }} -X virak-cli/pkg.LoginUrl={{.Env.LOGIN_URL}}{{- end }}{{- if (index .Env \"BASE_URL\") }} -X virak-cli/pkg.BaseUrl={{.Env.BASE_URL}}{{- end }}"
     hooks:
       pre:
+        - go mod tidy
         - go mod download
 
 archives:
