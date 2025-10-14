@@ -3,7 +3,9 @@ package responses
 import "encoding/json"
 
 type NetworkCreateResponse struct {
-	Data Network `json:"data"`
+	Data struct {
+		Success bool `json:"success"`
+	} `json:"data"`
 }
 
 type NetworkListResponse struct {
