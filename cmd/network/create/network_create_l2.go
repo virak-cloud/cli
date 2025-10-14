@@ -32,7 +32,7 @@ var networkCreateL2Cmd = &cobra.Command{
 			cli.Required("name"),
 		)
 	},
-	RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, args []string) error {
 		token := cli.TokenFromContext(cmd.Context())
 		zoneID := cli.ZoneIDFromContext(cmd.Context())
 
@@ -41,8 +41,32 @@ var networkCreateL2Cmd = &cobra.Command{
 		}
 
 		httpClient := http.NewClient(token)
+		
+		// Validate that the network offering is of type L2
+		serviceOfferings, err := httpClient.GetL2NetworkServiceOfferings(zoneID)
+		if err != nil {
+			slog.Error("failed to get L2 network service offerings", "error", err)
+			return fmt.Errorf("error: %w", err)
+		}
+
+		// Check if the provided network offering ID exists and is of type L2
+		isValidL2Offering := false
+		for _, offering := range serviceOfferings.Data {
+			if offering.ID == l2NetworkOptions.NetworkOfferingID {
+				if offering.Type != "L2" {
+					return fmt.Errorf("network offering '%s' is not of type L2 (found type: %s)", l2NetworkOptions.NetworkOfferingID, offering.Type)
+				}
+				isValidL2Offering = true
+				break
+			}
+		}
+
+		if !isValidL2Offering {
+			return fmt.Errorf("network offering ID '%s' not found or is not a valid L2 network offering", l2NetworkOptions.NetworkOfferingID)
+		}
+
 		// Call the HTTP method and handle response
-		_, err := httpClient.CreateL2Network(zoneID, l2NetworkOptions.NetworkOfferingID, l2NetworkOptions.Name)
+		_, err = httpClient.CreateL2Network(zoneID, l2NetworkOptions.NetworkOfferingID, l2NetworkOptions.Name)
 		if err != nil {
 			slog.Error("failed to create L2 network", "error", err)
 			return fmt.Errorf("error: %w", err)

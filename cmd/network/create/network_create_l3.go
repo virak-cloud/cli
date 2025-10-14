@@ -41,15 +41,38 @@ var networkCreateL3Cmd = &cobra.Command{
 		token := cli.TokenFromContext(cmd.Context())
 		zoneID := cli.ZoneIDFromContext(cmd.Context())
 
-		// Load l2NetworkOptions from flags
-
+		// Load l3NetworkOptions from flags
 		if err := cli.LoadFromCobraFlags(cmd, &l3NetworkOptions); err != nil {
 			return err
 		}
 
 		httpClient := http.NewClient(token)
+		
+		// Validate that the network offering is of type L3 (Isolated)
+		serviceOfferings, err := httpClient.GetL3NetworkServiceOfferings(zoneID)
+		if err != nil {
+			slog.Error("failed to get L3 network service offerings", "error", err)
+			return fmt.Errorf("error: %w", err)
+		}
+
+		// Check if the provided network offering ID exists and is of type L3 (Isolated)
+		isValidL3Offering := false
+		for _, offering := range serviceOfferings.Data {
+			if offering.ID == l3NetworkOptions.NetworkOfferingID {
+				if offering.Type != "Isolated" {
+					return fmt.Errorf("network offering '%s' is not of type L3/Isolated (found type: %s)", l3NetworkOptions.NetworkOfferingID, offering.Type)
+				}
+				isValidL3Offering = true
+				break
+			}
+		}
+
+		if !isValidL3Offering {
+			return fmt.Errorf("network offering ID '%s' not found or is not a valid L3 network offering", l3NetworkOptions.NetworkOfferingID)
+		}
+
 		// Call the HTTP method and handle response
-		_, err := httpClient.CreateL3Network(zoneID, l3NetworkOptions.NetworkOfferingID, l3NetworkOptions.Name, l3NetworkOptions.Gateway, l3NetworkOptions.Netmask)
+		_, err = httpClient.CreateL3Network(zoneID, l3NetworkOptions.NetworkOfferingID, l3NetworkOptions.Name, l3NetworkOptions.Gateway, l3NetworkOptions.Netmask)
 		if err != nil {
 			slog.Error("failed to create L3 network", "error", err)
 			return fmt.Errorf("error: %w", err)
