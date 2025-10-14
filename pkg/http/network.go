@@ -369,3 +369,39 @@ func (client *Client) ListNetworkServiceOfferings(zoneId string) (*responses.Net
 	}
 	return &result, nil
 }
+
+func (client *Client) GetL2NetworkServiceOfferings(zoneId string) (*responses.NetworkServiceOfferingListResponse, error) {
+	allOfferings, err := client.ListNetworkServiceOfferings(zoneId)
+	if err != nil {
+		return nil, err
+	}
+
+	var l2Offerings []responses.NetworkOffering
+	for _, offering := range allOfferings.Data {
+		if offering.Type == "L2" {
+			l2Offerings = append(l2Offerings, offering)
+		}
+	}
+
+	return &responses.NetworkServiceOfferingListResponse{
+		Data: l2Offerings,
+	}, nil
+}
+
+func (client *Client) GetL3NetworkServiceOfferings(zoneId string) (*responses.NetworkServiceOfferingListResponse, error) {
+	allOfferings, err := client.ListNetworkServiceOfferings(zoneId)
+	if err != nil {
+		return nil, err
+	}
+
+	var l3Offerings []responses.NetworkOffering
+	for _, offering := range allOfferings.Data {
+		if offering.Type == "Isolated" {
+			l3Offerings = append(l3Offerings, offering)
+		}
+	}
+
+	return &responses.NetworkServiceOfferingListResponse{
+		Data: l3Offerings,
+	}, nil
+}
