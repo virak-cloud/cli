@@ -10,13 +10,18 @@ import (
 	"github.com/virak-cloud/cli/pkg/http"
 )
 
+// zoneResourcesOptions holds the options for the `zone resources` command.
+// These options are populated from command-line flags.
 type zoneResourcesOptions struct {
+	// ZoneID is the ID of the zone to list resources for.
+	// This is optional if a default zone is set in the config.
 	ZoneID string `flag:"zoneId" desc:"Zone ID to use (optional if default.zoneId is set in config, overrides positional argument if set)"`
 }
 
 var resourcesOpt zoneResourcesOptions
 
-// resourcesCmd represents the resources command
+// resourcesCmd represents the `zone resources` command.
+// It lists the resources for a specific zone.
 var resourcesCmd = &cobra.Command{
 	Use:   "resources",
 	Short: "List of resources for a specific zone",
@@ -52,6 +57,8 @@ You must provide the zone id as an argument, or use --default-zone or --zoneId f
 	},
 }
 
+// init registers the `zone resources` command with the parent `zone` command
+// and binds the flags for the `zoneResourcesOptions` struct.
 func init() {
 	ZoneCmd.AddCommand(resourcesCmd)
 	_ = cli.BindFlagsFromStruct(resourcesCmd, &resourcesOpt)

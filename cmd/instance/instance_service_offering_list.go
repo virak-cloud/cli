@@ -1,4 +1,3 @@
-// Package instance provides commands for managing instances.
 package instance
 
 import (
@@ -14,14 +13,22 @@ import (
 	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
+// serviceOfferingListOptions holds the options for the `instance service-offering-list` command.
+// These options are populated from command-line flags.
 type serviceOfferingListOptions struct {
+	// ZoneID is the ID of the zone to list service offerings from.
+	// This is optional if a default zone is set in the config.
 	ZoneID    string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// Available specifies whether to show only available service offerings.
 	Available bool   `flag:"available" usage:"Show only available service offerings"`
+	// Columns is a comma-separated list of columns to display in the output.
 	Columns   string `flag:"columns" usage:"Comma-separated list of columns to display"`
 }
 
 var soListOpt serviceOfferingListOptions
 
+// validColumns defines the valid columns that can be displayed in the service offering list output.
+// The map key is the column name, and the value is a struct containing the header and a function to extract the value from a service offering.
 var validColumns = map[string]struct {
 	Header string
 	Value  func(offering responses.InstanceServiceOffering) string
@@ -71,8 +78,12 @@ var validColumns = map[string]struct {
 	}},
 }
 
+// defaultColumns is the default list of columns to display in the service offering list output.
 var defaultColumns = []string{"id", "name", "category", "cpu", "memory", "storage", "suggested", "available"}
 
+// instanceServiceOfferingListCmd represents the `instance service-offering-list` command.
+// It lists all available service offerings for instances in a specified zone.
+// The user can filter the list to show only available offerings and can customize the output by specifying the columns to display.
 var instanceServiceOfferingListCmd = &cobra.Command{
 	Use:     "service-offering-list",
 	Aliases: []string{"offering", "service-offering", "service-offerings"},
@@ -134,6 +145,7 @@ var instanceServiceOfferingListCmd = &cobra.Command{
 	},
 }
 
+// renderInstanceServiceOfferings renders a table of instance service offerings with the specified columns.
 func renderInstanceServiceOfferings(resp *responses.InstanceServiceOfferingListResponse, columns []string) {
 	headers := []string{}
 	for _, col := range columns {
@@ -151,6 +163,8 @@ func renderInstanceServiceOfferings(resp *responses.InstanceServiceOfferingListR
 	table.Render()
 }
 
+// init registers the `instance service-offering-list` command with the parent `instance` command
+// and binds the flags for the `serviceOfferingListOptions` struct.
 func init() {
 	InstanceCmd.AddCommand(instanceServiceOfferingListCmd)
 	_ = cli.BindFlagsFromStruct(instanceServiceOfferingListCmd, &soListOpt)

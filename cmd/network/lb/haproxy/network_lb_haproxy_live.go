@@ -9,13 +9,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// lbHaproxyLiveOptions holds the options for the `network lb haproxy live` command.
+// These options are populated from command-line flags.
 type lbHaproxyLiveOptions struct {
+	// ZoneID is the ID of the zone where the load balancer is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID    string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to get the HAProxy live report for.
 	NetworkID string `flag:"networkId" usage:"Network ID for the load balancer"`
 }
 
 var lbHaproxyLiveOpts lbHaproxyLiveOptions
 
+// NetworkLbHaproxyLiveCmd represents the `network lb haproxy live` command.
+// It gets live HAProxy statistics for a network.
 var NetworkLbHaproxyLiveCmd = &cobra.Command{
 	Use:   "live",
 	Short: "Get live HAProxy statistics for the network",
@@ -52,6 +59,8 @@ var NetworkLbHaproxyLiveCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network lb haproxy live` command with the parent `network lb haproxy` command
+// and binds the flags for the `lbHaproxyLiveOptions` struct.
 func init() {
 	NetworkLbHaproxyCmd.AddCommand(NetworkLbHaproxyLiveCmd)
 	_ = cli.BindFlagsFromStruct(NetworkLbHaproxyLiveCmd, &lbHaproxyLiveOpts)

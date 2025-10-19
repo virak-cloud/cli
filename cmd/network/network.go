@@ -12,12 +12,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// NetworkCmd is the parent command for all network related commands.
+// It doesn't have a run function of its own, as it relies on subcommands for its functionality.
 var NetworkCmd = &cobra.Command{
 	Use:   "network",
 	Short: "Manage networks in a zone",
 	Long:  `Perform operations on networks such as create, list, show, and delete.`,
 }
 
+// init registers the subcommands for the `network` command.
 func init() {
 	NetworkCmd.AddCommand(create.NetworkCreateCmd)
 	NetworkCmd.AddCommand(firewall.NetworkFirewallCmd)

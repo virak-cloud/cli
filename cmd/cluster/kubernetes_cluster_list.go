@@ -12,12 +12,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// listOptions holds the options for the `cluster list` command.
+// These options are populated from command-line flags.
 type listOptions struct {
+	// ZoneID is the ID of the zone to list clusters from.
+	// This is optional if a default zone is set in the config.
 	ZoneID string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
 }
 
 var listOpts listOptions
 
+// kubernetesClusterListCmd represents the `cluster list` command.
+// It lists all Kubernetes clusters in a specified zone.
 var kubernetesClusterListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all kubernetes clusters",
@@ -50,6 +56,8 @@ var kubernetesClusterListCmd = &cobra.Command{
 	},
 }
 
+// init registers the `cluster list` command with the parent `cluster` command
+// and binds the flags for the `listOptions` struct.
 func init() {
 	KubernetesClusterCmd.AddCommand(kubernetesClusterListCmd)
 	_ = cli.BindFlagsFromStruct(kubernetesClusterListCmd, &listOpts)

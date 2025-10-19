@@ -13,7 +13,8 @@ import (
 	"github.com/virak-cloud/cli/pkg/http"
 )
 
-// listCmd represents the list command
+// listCmd represents the `zone list` command.
+// It lists all available zones and optionally sets a default zone.
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "A list of all available zones",
@@ -73,6 +74,7 @@ var listCmd = &cobra.Command{
 	},
 }
 
+// init registers the `zone list` command with the parent `zone` command.
 func init() {
 	ZoneCmd.AddCommand(listCmd)
 }

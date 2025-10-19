@@ -14,20 +14,34 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// instanceSnapshotCmd is the parent command for all instance snapshot related commands.
+// It doesn't have a run function of its own, as it relies on subcommands for its functionality.
 var instanceSnapshotCmd = &cobra.Command{
 	Use:   "snapshot",
 	Short: "Manage instance snapshots",
 }
 
+// snapshotCreateOptions holds the options for the `instance snapshot create` command.
+// These options are populated from command-line flags or through the interactive mode.
 type snapshotCreateOptions struct {
+	// ZoneID is the ID of the zone where the instance is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// InstanceID is the ID of the instance to create a snapshot of.
 	InstanceID  string `flag:"instanceId" usage:"Instance ID"`
+	// Name is the name of the snapshot.
 	Name        string `flag:"name" usage:"Snapshot name"`
+	// Interactive specifies whether to run the command in interactive mode.
 	Interactive bool   `flag:"interactive" usage:"Prompt for required fields interactively"`
 }
 
 var snapshotCreateOpt snapshotCreateOptions
 
+// instanceSnapshotCreateCmd represents the `instance snapshot create` command.
+// It creates a new snapshot of a virtual machine instance.
+// The command can be run in two modes:
+// - Non-interactive: The instance ID and snapshot name are provided as flags.
+// - Interactive: The command prompts the user to select an instance and provide a name for the snapshot.
 var instanceSnapshotCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create a snapshot of an instance",
@@ -136,6 +150,8 @@ var instanceSnapshotCreateCmd = &cobra.Command{
 	},
 }
 
+// init registers the `instance snapshot create` command with the parent `instance snapshot` command
+// and binds the flags for the `snapshotCreateOptions` struct.
 func init() {
 	InstanceCmd.AddCommand(instanceSnapshotCmd)
 	instanceSnapshotCmd.AddCommand(instanceSnapshotCreateCmd)

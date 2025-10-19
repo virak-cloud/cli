@@ -10,15 +10,24 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// updateOptions holds the options for the `cluster update` command.
+// These options are populated from command-line flags.
 type updateOptions struct {
+	// ZoneID is the ID of the zone where the cluster is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID      string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
+	// ClusterID is the ID of the cluster to be updated.
 	ClusterID   string `flag:"clusterId" usage:"Cluster ID"`
+	// Name is the new name for the cluster.
 	Name        string `flag:"name" usage:"New cluster name"`
+	// Description is the new description for the cluster.
 	Description string `flag:"description" usage:"New cluster description"`
 }
 
 var updateOpts updateOptions
 
+// kubernetesClusterUpdateCmd represents the `cluster update` command.
+// It updates the name and description of a Kubernetes cluster.
 var kubernetesClusterUpdateCmd = &cobra.Command{
 	Use:   "update",
 	Short: "Update a kubernetes cluster",
@@ -59,6 +68,8 @@ var kubernetesClusterUpdateCmd = &cobra.Command{
 	},
 }
 
+// init registers the `cluster update` command with the parent `cluster` command
+// and binds the flags for the `updateOptions` struct.
 func init() {
 	KubernetesClusterCmd.AddCommand(kubernetesClusterUpdateCmd)
 	_ = cli.BindFlagsFromStruct(kubernetesClusterUpdateCmd, &updateOpts)

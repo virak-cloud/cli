@@ -10,12 +10,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// listOptions holds the options for the `network list` command.
+// These options are populated from command-line flags.
 type listOptions struct {
+	// ZoneID is the ID of the zone to list networks from.
+	// This is optional if a default zone is set in the config.
 	ZoneID string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 }
 
 var listOpts listOptions
 
+// networkListCmd represents the `network list` command.
+// It lists all networks in a specified zone.
 var networkListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all networks in a zone",
@@ -42,6 +48,8 @@ var networkListCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network list` command with the parent `network` command
+// and binds the flags for the `listOptions` struct.
 func init() {
 	_ = cli.BindFlagsFromStruct(networkListCmd, &listOpts)
 	NetworkCmd.AddCommand(networkListCmd)

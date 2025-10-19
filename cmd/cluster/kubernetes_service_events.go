@@ -12,12 +12,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// serviceEventsOptions holds the options for the `cluster service-events` command.
+// These options are populated from command-line flags.
 type serviceEventsOptions struct {
+	// ZoneID is the ID of the zone to list service events from.
+	// This is optional if a default zone is set in the config.
 	ZoneID string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
 }
 
 var serviceEventsOpts serviceEventsOptions
 
+// kubernetesServiceEventsCmd represents the `cluster service-events` command.
+// It lists all Kubernetes service events in a specified zone.
 var kubernetesServiceEventsCmd = &cobra.Command{
 	Use:   "service-events",
 	Short: "List kubernetes service events",
@@ -50,6 +56,8 @@ var kubernetesServiceEventsCmd = &cobra.Command{
 	},
 }
 
+// init registers the `cluster service-events` command with the parent `cluster` command
+// and binds the flags for the `serviceEventsOptions` struct.
 func init() {
 	KubernetesClusterCmd.AddCommand(kubernetesServiceEventsCmd)
 	_ = cli.BindFlagsFromStruct(kubernetesServiceEventsCmd, &serviceEventsOpts)

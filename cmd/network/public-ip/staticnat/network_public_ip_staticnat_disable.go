@@ -9,15 +9,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// disableStaticIpOptions holds the options for the `network public-ip staticnat disable` command.
+// These options are populated from command-line flags.
 type disableStaticIpOptions struct {
+	// ZoneID is the ID of the zone where the network is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID            string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network.
 	NetworkID         string `flag:"networkId" usage:"Network ID"`
+	// NetworkPublicIPID is the ID of the public IP to disable static NAT for.
 	NetworkPublicIPID string `flag:"networkPublicIpId" usage:"Network Public IP ID"`
 }
 
 var disableOpts disableStaticIpOptions
 
-// NetworkPublicIPStaticNatDisableCmd represents the disable subcommand
+// NetworkPublicIPStaticNatDisableCmd represents the `network public-ip staticnat disable` command.
+// It disables static NAT for a public IP.
 var NetworkPublicIPStaticNatDisableCmd = &cobra.Command{
 	Use:   "disable",
 	Short: "Disable static NAT for a public IP",
@@ -60,6 +67,8 @@ var NetworkPublicIPStaticNatDisableCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network public-ip staticnat disable` command with the parent `network public-ip staticnat` command
+// and binds the flags for the `disableStaticIpOptions` struct.
 func init() {
 	NetworkPublicIPStaticNatCmd.AddCommand(NetworkPublicIPStaticNatDisableCmd)
 	_ = cli.BindFlagsFromStruct(NetworkPublicIPStaticNatDisableCmd, &disableOpts)

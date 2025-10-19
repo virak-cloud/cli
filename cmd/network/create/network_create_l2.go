@@ -10,14 +10,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// createL2NetworkOptions holds the options for the `network create l2` command.
+// These options are populated from command-line flags.
 type createL2NetworkOptions struct {
+	// ZoneID is the ID of the zone where the network will be created.
+	// This is optional if a default zone is set in the config.
 	ZoneID            string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkOfferingID is the ID of the L2 network offering to use.
 	NetworkOfferingID string `flag:"network-offering-id" usage:"Network offering ID"`
+	// Name is the name of the new L2 network.
 	Name              string `flag:"name" usage:"Network name"`
 }
 
 var l2NetworkOptions createL2NetworkOptions
 
+// networkCreateL2Cmd represents the `network create l2` command.
+// It creates a new Layer 2 network in a specified zone.
 var networkCreateL2Cmd = &cobra.Command{
 	Use:   "l2",
 	Short: "Create a new L2 network in a zone",
@@ -78,6 +86,8 @@ var networkCreateL2Cmd = &cobra.Command{
 	},
 }
 
+// init registers the `network create l2` command with the parent `network create` command
+// and binds the flags for the `createL2NetworkOptions` struct.
 func init() {
 	_ = cli.BindFlagsFromStruct(networkCreateL2Cmd, &l2NetworkOptions)
 	NetworkCreateCmd.AddCommand(networkCreateL2Cmd)

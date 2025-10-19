@@ -7,6 +7,7 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
+// RenderNetworkDetail renders a table with the details of a network.
 func RenderNetworkDetail(network responses.Network) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Field", "Value"})
@@ -18,6 +19,7 @@ func RenderNetworkDetail(network responses.Network) {
 	table.Render()
 }
 
+// RenderNetworkList renders a table of networks.
 func RenderNetworkList(networks []responses.Network) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"ID", "Name", "Status", "Offering Name"})
@@ -28,6 +30,7 @@ func RenderNetworkList(networks []responses.Network) {
 	table.Render()
 }
 
+// RenderInstanceNetworkList renders a table of instance network interfaces.
 func RenderInstanceNetworkList(instances []responses.InstanceNetwork) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Instance Network ID", "Instance ID", "IP Address", "Network Name", "Is Default"})

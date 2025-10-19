@@ -13,14 +13,25 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// rebootOptions holds the options for the `instance reboot` command.
+// These options are populated from command-line flags or through the interactive mode.
 type rebootOptions struct {
+	// ZoneID is the ID of the zone where the instance is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// InstanceID is the ID of the instance to be rebooted.
 	InstanceID  string `flag:"instance-id" usage:"ID of the instance to reboot"`
+	// Interactive specifies whether to run the command in interactive mode.
 	Interactive bool   `flag:"interactive" usage:"Run interactive instance reboot workflow"`
 }
 
 var rebootOpt rebootOptions
 
+// instanceRebootCmd represents the `instance reboot` command.
+// It reboots a virtual machine instance in a specified zone.
+// The command can be run in two modes:
+// - Non-interactive: The instance ID is provided as a flag.
+// - Interactive: The command prompts the user to select an instance to reboot from a list of available instances.
 var instanceRebootCmd = &cobra.Command{
 	Use:   "reboot",
 	Short: "Reboot a running instance",
@@ -100,6 +111,8 @@ var instanceRebootCmd = &cobra.Command{
 	},
 }
 
+// init registers the `instance reboot` command with the parent `instance` command
+// and binds the flags for the `rebootOptions` struct.
 func init() {
 	InstanceCmd.AddCommand(instanceRebootCmd)
 	_ = cli.BindFlagsFromStruct(instanceRebootCmd, &rebootOpt)

@@ -10,12 +10,17 @@ import (
 	"github.com/virak-cloud/cli/pkg/http"
 )
 
+// createOptions holds the options for the `dns domain create` command.
+// These options are populated from command-line flags.
 type createOptions struct {
+	// Domain is the name of the domain to be created.
 	Domain string `flag:"domain" usage:"Domain name to create"`
 }
 
 var createOpts createOptions
 
+// domainCreateCmd represents the `dns domain create` command.
+// It creates a new DNS domain.
 var domainCreateCmd = &cobra.Command{
 	Use:     "create",
 	Aliases: []string{"add"},
@@ -47,6 +52,8 @@ var domainCreateCmd = &cobra.Command{
 	},
 }
 
+// init registers the `dns domain create` command with the parent `dns domain` command
+// and binds the flags for the `createOptions` struct.
 func init() {
 	domainCmd.AddCommand(domainCreateCmd)
 	_ = cli.BindFlagsFromStruct(domainCreateCmd, &createOpts)

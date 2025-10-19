@@ -13,6 +13,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// dnsEventsCmd represents the `dns events` command.
+// It retrieves and displays DNS events.
 var dnsEventsCmd = &cobra.Command{
 	Use:   "events",
 	Short: "Get DNS events",
@@ -38,6 +40,7 @@ var dnsEventsCmd = &cobra.Command{
 	},
 }
 
+// renderDNSEvents renders a table of DNS events.
 func renderDNSEvents(eventsResponse *responses.DNSEventsResponse) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Type", "Content", "Created At"})
@@ -48,6 +51,7 @@ func renderDNSEvents(eventsResponse *responses.DNSEventsResponse) {
 	table.Render()
 }
 
+// init registers the `dns events` command with the parent `dns` command.
 func init() {
 	DnsCmd.AddCommand(dnsEventsCmd)
 }

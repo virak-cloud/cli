@@ -13,12 +13,17 @@ import (
 	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
+// showOptions holds the options for the `dns domain show` command.
+// These options are populated from command-line flags.
 type showOptions struct {
+	// Domain is the name of the domain to be shown.
 	Domain string `flag:"domain" usage:"Domain name to show"`
 }
 
 var showOpts showOptions
 
+// domainShowCmd represents the `dns domain show` command.
+// It shows the details of a specific DNS domain.
 var domainShowCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Show a domain",
@@ -47,6 +52,7 @@ var domainShowCmd = &cobra.Command{
 	},
 }
 
+// renderDomainShow renders a table with the details of a DNS domain.
 func renderDomainShow(resp *responses.DomainShow) {
 	if resp.Data.Domain == "" || resp.Data.Status == "" {
 		fmt.Println("Domain is in pending, please check later")
@@ -58,6 +64,8 @@ func renderDomainShow(resp *responses.DomainShow) {
 	table.Render()
 }
 
+// init registers the `dns domain show` command with the parent `dns domain` command
+// and binds the flags for the `showOptions` struct.
 func init() {
 	domainCmd.AddCommand(domainShowCmd)
 	_ = cli.BindFlagsFromStruct(domainShowCmd, &showOpts)

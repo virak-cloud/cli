@@ -14,14 +14,20 @@ import (
 	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
+// listServiceOfferringOptions holds the options for the `network service-offering` command.
+// These options are populated from command-line flags.
 type listServiceOfferringOptions struct {
+	// ZoneID is the ID of the zone to list service offerings from.
+	// This is optional if a default zone is set in the config.
 	ZoneID string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// Type is the type of service offering to filter by (l2, l3, or all).
 	Type   string `flag:"type" usage:"Filter by service offering type: l2, l3, or all (default: all)"`
 }
 
 var listOfferingOpts listServiceOfferringOptions
 
-// NetworkServiceOfferingCmd is the command to list network service offerings.
+// NetworkServiceOfferingCmd represents the `network service-offering` command.
+// It lists available network service offerings for a zone, with an option to filter by type.
 var NetworkServiceOfferingCmd = &cobra.Command{
 	Use:     "service-offering",
 	Aliases: []string{"serviceofferings", "service-offerings", "serviceoffering", "offering", "offerings", "service-offering list"},
@@ -114,6 +120,8 @@ var NetworkServiceOfferingCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network service-offering` command with the parent `network` command
+// and binds the flags for the `listServiceOfferringOptions` struct.
 func init() {
 	_ = cli.BindFlagsFromStruct(NetworkServiceOfferingCmd, &listOfferingOpts)
 	NetworkCmd.AddCommand(NetworkServiceOfferingCmd)

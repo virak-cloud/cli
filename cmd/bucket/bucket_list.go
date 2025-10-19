@@ -11,13 +11,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// ListOptions contains options for listing object storage buckets.
+// ListOptions holds the options for the `bucket list` command.
+// These options are populated from command-line flags.
 type ListOptions struct {
+	// ZoneID is the ID of the zone to list buckets from.
+	// This is optional if a default zone is set in the config.
 	ZoneID string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 }
 
 var listOpts ListOptions
 
+// objectStorageListCmd represents the `bucket list` command.
+// It lists all object storage buckets in a specified zone.
 var objectStorageListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List object storage buckets in a zone",
@@ -47,6 +52,8 @@ var objectStorageListCmd = &cobra.Command{
 	},
 }
 
+// init registers the `bucket list` command with the parent `bucket` command
+// and binds the flags for the `ListOptions` struct.
 func init() {
 	ObjectStorageCmd.AddCommand(objectStorageListCmd)
 	_ = cli.BindFlagsFromStruct(objectStorageListCmd, &listOpts)

@@ -10,14 +10,23 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// updateOptions holds the options for the `bucket update` command.
+// These options are populated from command-line flags.
 type updateOptions struct {
+	// ZoneID is the ID of the zone where the bucket is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID   string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// BucketID is the ID of the bucket to be updated.
 	BucketID string `flag:"bucketId" usage:"Id of the bucket"`
+	// Policy is the new access policy for the bucket.
+	// It can be either "Private" or "Public".
 	Policy   string `flag:"policy" default:"Private" usage:"Policy (Private|Public)"`
 }
 
 var updateOpt updateOptions
 
+// objectStorageUpdateCmd represents the `bucket update` command.
+// It updates the policy of an existing object storage bucket.
 var objectStorageUpdateCmd = &cobra.Command{
 	Use:   "update",
 	Short: "Update an object storage bucket",
@@ -55,6 +64,8 @@ var objectStorageUpdateCmd = &cobra.Command{
 	},
 }
 
+// init registers the `bucket update` command with the parent `bucket` command
+// and binds the flags for the `updateOptions` struct.
 func init() {
 	ObjectStorageCmd.AddCommand(objectStorageUpdateCmd)
 	_ = cli.BindFlagsFromStruct(objectStorageUpdateCmd, &updateOpt)

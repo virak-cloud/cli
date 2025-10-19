@@ -11,12 +11,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// showOptions holds the options for the `bucket show` command.
+// These options are populated from command-line flags.
 type showOptions struct {
+	// ZoneID is the ID of the zone where the bucket is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID   string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// BucketID is the ID of the bucket to be shown.
 	BucketID string `flag:"bucketId" usage:"Id of the bucket"`
 }
 
 var showOpt showOptions
+
+// objectStorageShowCmd represents the `bucket show` command.
+// It shows the details of a specific object storage bucket.
 var objectStorageShowCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Show details of an object storage bucket",
@@ -52,6 +60,8 @@ var objectStorageShowCmd = &cobra.Command{
 	},
 }
 
+// init registers the `bucket show` command with the parent `bucket` command
+// and binds the flags for the `showOptions` struct.
 func init() {
 	ObjectStorageCmd.AddCommand(objectStorageShowCmd)
 	_ = cli.BindFlagsFromStruct(objectStorageShowCmd, &showOpt)

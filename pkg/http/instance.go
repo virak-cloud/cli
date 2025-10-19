@@ -1,3 +1,9 @@
+// Package http provides virtual machine instance management operations for the Virak Cloud API.
+//
+// This file contains client methods for managing virtual machine instances, including
+// lifecycle operations (create, start, stop, delete), snapshot management, volume
+// operations, and performance monitoring. All operations are performed within
+// the context of a specific zone.
 package http
 
 import (
@@ -9,6 +15,27 @@ import (
 	"net/http"
 )
 
+// ListInstances retrieves all virtual machine instances in the specified zone.
+//
+// Returns a comprehensive list of all instances accessible to the user within
+// the specified zone, including their current status, configuration details,
+// network information, and resource allocation.
+//
+// Parameters:
+//   - zoneId: The unique identifier of the zone to query for instances
+//
+// Returns:
+//   - *responses.InstanceListResponse: List of instances with detailed metadata
+//   - error: API error or network failure
+//
+// Example:
+//   instances, err := client.ListInstances("zone-123")
+//   if err != nil {
+//       return fmt.Errorf("failed to list instances: %w", err)
+//   }
+//   for _, instance := range instances.Data {
+//       fmt.Printf("Instance: %s (Status: %s)\n", instance.Name, instance.Status)
+//   }
 func (client *Client) ListInstances(zoneId string) (*responses.InstanceListResponse, error) {
 	var result responses.InstanceListResponse
 	url := fmt.Sprintf(urls.InstanceList, urls.BaseUrl, zoneId)
@@ -42,6 +69,32 @@ func (client *Client) ListInstanceVMImages(zoneId string) (*responses.InstanceVM
 	return &result, nil
 }
 
+// CreateInstance creates a new virtual machine instance with the specified configuration.
+//
+// This method provisions a new VM with the specified resources, operating system,
+// and network connectivity. The instance creation is typically an asynchronous
+// operation that returns immediately with a job ID for tracking progress.
+//
+// Parameters:
+//   - zoneId: Zone where the instance will be created
+//   - serviceOfferingId: Service offering defining CPU, memory, and storage specifications
+//   - vmImageId: VM image ID for the operating system template
+//   - networkIds: List of network IDs to connect the instance to
+//   - name: Human-readable name for the instance
+//
+// Returns:
+//   - *responses.InstanceCreateResponse: Creation response with instance details and job ID
+//   - error: Validation error or API failure
+//
+// Example:
+//   resp, err := client.CreateInstance(
+//       "zone-123", "offering-456", "image-789",
+//       []string{"network-abc"}, "my-instance",
+//   )
+//   if err != nil {
+//       return fmt.Errorf("failed to create instance: %w", err)
+//   }
+//   fmt.Printf("Instance created with ID: %s\n", resp.Data.ID)
 func (client *Client) CreateInstance(zoneId, serviceOfferingId, vmImageId string, networkIds []string, name string) (*responses.InstanceCreateResponse, error) {
 	var result responses.InstanceCreateResponse
 	url := fmt.Sprintf(urls.InstanceCreate, urls.BaseUrl, zoneId)
@@ -77,6 +130,18 @@ func (client *Client) RebuildInstance(zoneId, instanceId, vmImageId string) (*re
 	return &result, nil
 }
 
+// StartInstance starts a stopped virtual machine instance.
+//
+// Powers on the instance and makes it available for network connections.
+// This operation may take some time as the instance boots up.
+//
+// Parameters:
+//   - zoneId: Zone containing the instance
+//   - instanceId: Instance to start
+//
+// Returns:
+//   - *responses.InstanceCreateResponse: Updated instance status with job ID
+//   - error: API error if start fails
 func (client *Client) StartInstance(zoneId, instanceId string) (*responses.InstanceCreateResponse, error) {
 	var result responses.InstanceCreateResponse
 	url := fmt.Sprintf(urls.InstanceStart, urls.BaseUrl, zoneId, instanceId)
@@ -87,6 +152,19 @@ func (client *Client) StartInstance(zoneId, instanceId string) (*responses.Insta
 	return &result, nil
 }
 
+// StopInstance stops a running virtual machine instance.
+//
+// Gracefully shuts down the instance. If forced is true, performs an immediate
+// power off which may result in data loss (similar to pulling the power cord).
+//
+// Parameters:
+//   - zoneId: Zone containing the instance
+//   - instanceId: Instance to stop
+//   - forced: Whether to force immediate shutdown (true) or graceful shutdown (false)
+//
+// Returns:
+//   - *responses.InstanceCreateResponse: Updated instance status with job ID
+//   - error: API error if stop fails
 func (client *Client) StopInstance(zoneId, instanceId string, forced bool) (*responses.InstanceCreateResponse, error) {
 	var result responses.InstanceCreateResponse
 	url := fmt.Sprintf(urls.InstanceStop, urls.BaseUrl, zoneId, instanceId)
@@ -103,6 +181,18 @@ func (client *Client) StopInstance(zoneId, instanceId string, forced bool) (*res
 	return &result, nil
 }
 
+// RebootInstance restarts a running virtual machine instance.
+//
+// Performs a graceful restart of the instance, equivalent to a reboot command
+// from within the operating system.
+//
+// Parameters:
+//   - zoneId: Zone containing the instance
+//   - instanceId: Instance to reboot
+//
+// Returns:
+//   - *responses.InstanceCreateResponse: Updated instance status with job ID
+//   - error: API error if reboot fails
 func (client *Client) RebootInstance(zoneId, instanceId string) (*responses.InstanceCreateResponse, error) {
 	var result responses.InstanceCreateResponse
 	url := fmt.Sprintf(urls.InstanceReboot, urls.BaseUrl, zoneId, instanceId)
@@ -113,6 +203,20 @@ func (client *Client) RebootInstance(zoneId, instanceId string) (*responses.Inst
 	return &result, nil
 }
 
+// DeleteInstance permanently removes a virtual machine instance.
+//
+// This operation is irreversible and will delete all data, storage volumes,
+// and network configurations associated with the instance. The name parameter
+// must match the instance name exactly as a safety confirmation.
+//
+// Parameters:
+//   - zoneId: Zone containing the instance
+//   - instanceId: Instance to delete
+//   - name: Instance name (must match exactly for safety confirmation)
+//
+// Returns:
+//   - *responses.InstanceCreateResponse: Deletion confirmation with job ID
+//   - error: API error if deletion fails or name doesn't match
 func (client *Client) DeleteInstance(zoneId, instanceId, name string) (*responses.InstanceCreateResponse, error) {
 	var result responses.InstanceCreateResponse
 	url := fmt.Sprintf(urls.InstanceDelete, urls.BaseUrl, zoneId, instanceId)
@@ -264,7 +368,28 @@ func (client *Client) AttachInstanceVolume(zoneId, volumeId, instanceId string) 
 	return &result, nil
 }
 
-// Show Instance
+// ShowInstance retrieves detailed information about a specific instance.
+//
+// Returns comprehensive details about a single instance including hardware
+// specifications, network configuration, storage volumes, security groups,
+// and current operational status.
+//
+// Parameters:
+//   - zoneId: Zone containing the instance
+//   - instanceId: Instance to retrieve details for
+//
+// Returns:
+//   - *responses.InstanceShowResponse: Detailed instance information
+//   - error: API error if instance doesn't exist or access is denied
+//
+// Example:
+//   instance, err := client.ShowInstance("zone-123", "instance-456")
+//   if err != nil {
+//       return fmt.Errorf("failed to get instance details: %w", err)
+//   }
+//   fmt.Printf("Instance %s: %s vCPU, %s RAM\n",
+//       instance.Data.Name, instance.Data.ServiceOffering.Hardware.Cpu,
+//       instance.Data.ServiceOffering.Hardware.Memory)
 func (client *Client) ShowInstance(zoneId, instanceId string) (*responses.InstanceShowResponse, error) {
 	var result responses.InstanceShowResponse
 	url := fmt.Sprintf(urls.InstanceShow, urls.BaseUrl, zoneId, instanceId)

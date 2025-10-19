@@ -14,15 +14,27 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// stopOptions holds the options for the `instance stop` command.
+// These options are populated from command-line flags or through the interactive mode.
 type stopOptions struct {
+	// ZoneID is the ID of the zone where the instance is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// InstanceID is the ID of the instance to be stopped.
 	InstanceID  string `flag:"instance-id" usage:"ID of the instance to stop"`
+	// Forced specifies whether to force stop the instance.
 	Forced      bool   `flag:"forced" usage:"Force stop the instance"`
+	// Interactive specifies whether to run the command in interactive mode.
 	Interactive bool   `flag:"interactive" usage:"Run interactive instance stop workflow"`
 }
 
 var stopOpt stopOptions
 
+// instanceStopCmd represents the `instance stop` command.
+// It stops a running virtual machine instance.
+// The command can be run in two modes:
+// - Non-interactive: The instance ID is provided as a flag.
+// - Interactive: The command prompts the user to select a running instance to stop.
 var instanceStopCmd = &cobra.Command{
 	Use:   "stop",
 	Short: "Stop a running instance",
@@ -113,6 +125,8 @@ var instanceStopCmd = &cobra.Command{
 	},
 }
 
+// init registers the `instance stop` command with the parent `instance` command
+// and binds the flags for the `stopOptions` struct.
 func init() {
 	InstanceCmd.AddCommand(instanceStopCmd)
 	_ = cli.BindFlagsFromStruct(instanceStopCmd, &stopOpt)

@@ -12,12 +12,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// volumeListOptions holds the options for the `instance volume list` command.
+// These options are populated from command-line flags.
 type volumeListOptions struct {
+	// ZoneID is the ID of the zone to list volumes from.
+	// This is optional if a default zone is set in the config.
 	ZoneID string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 }
 
 var volumeListOpt volumeListOptions
 
+// instanceVolumeListCmd represents the `instance volume list` command.
+// It lists all data volumes in a specified zone.
 var instanceVolumeListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List volumes in a zone",
@@ -43,6 +49,7 @@ var instanceVolumeListCmd = &cobra.Command{
 	},
 }
 
+// renderInstanceVolumes renders a table of instance volumes.
 func renderInstanceVolumes(resp *responses.InstanceVolumeListResponse) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"ID", "Name", "Size", "Status"})
@@ -57,6 +64,8 @@ func renderInstanceVolumes(resp *responses.InstanceVolumeListResponse) {
 	table.Render()
 }
 
+// init registers the `instance volume list` command with the parent `instance volume` command
+// and binds the flags for the `volumeListOptions` struct.
 func init() {
 	instanceVolumeCmd.AddCommand(instanceVolumeListCmd)
 	_ = cli.BindFlagsFromStruct(instanceVolumeListCmd, &volumeListOpt)

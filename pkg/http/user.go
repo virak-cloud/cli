@@ -1,3 +1,9 @@
+// Package http provides user account management operations for the Virak Cloud API.
+//
+// This file contains client methods for managing user accounts, SSH keys,
+// authentication tokens, billing information, and financial operations.
+// These methods allow users to manage their account settings and access
+// their financial and usage information.
 package http
 
 import (

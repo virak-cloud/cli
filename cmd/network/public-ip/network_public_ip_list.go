@@ -12,14 +12,20 @@ import (
 	"github.com/virak-cloud/cli/pkg/http"
 )
 
+// listOptions holds the options for the `network public-ip list` command.
+// These options are populated from command-line flags.
 type listOptions struct {
+	// ZoneID is the ID of the zone where the network is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID    string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to list the public IPs for.
 	NetworkID string `flag:"networkId" usage:"Network ID to associate the public IP with"`
 }
 
 var listOpts listOptions
 
-// NetworkPublicIPListCmd represents the list subcommand
+// NetworkPublicIPListCmd represents the `network public-ip list` command.
+// It lists all public IPs for a network.
 var NetworkPublicIPListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all public IPs for a network",
@@ -64,6 +70,8 @@ var NetworkPublicIPListCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network public-ip list` command with the parent `network public-ip` command
+// and binds the flags for the `listOptions` struct.
 func init() {
 	NetworkPublicIPCmd.AddCommand(NetworkPublicIPListCmd)
 	_ = cli.BindFlagsFromStruct(NetworkPublicIPListCmd, &listOpts)

@@ -10,17 +10,29 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// scaleOptions holds the options for the `cluster scale` command.
+// These options are populated from command-line flags.
 type scaleOptions struct {
+	// ZoneID is the ID of the zone where the cluster is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID         string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// ClusterID is the ID of the cluster to be scaled.
 	ClusterID      string `flag:"clusterId" usage:"Cluster ID"`
+	// AutoScaling specifies whether to enable auto-scaling for the cluster.
 	AutoScaling    bool   `flag:"auto-scaling" usage:"Enable auto scaling"`
+	// ClusterSize is the target number of nodes in the cluster.
+	// This is required if auto-scaling is false.
 	ClusterSize    int    `flag:"cluster-size" usage:"Cluster size (required if auto-scaling is false)"`
+	// MinClusterSize is the minimum number of nodes in the cluster when auto-scaling is enabled.
 	MinClusterSize int    `flag:"min-cluster-size" usage:"Minimum cluster size (required if auto-scaling is true)"`
+	// MaxClusterSize is the maximum number of nodes in the cluster when auto-scaling is enabled.
 	MaxClusterSize int    `flag:"max-cluster-size" usage:"Maximum cluster size (required if auto-scaling is true)"`
 }
 
 var scaleOpts scaleOptions
 
+// kubernetesClusterScaleCmd represents the `cluster scale` command.
+// It scales a Kubernetes cluster up or down, or enables/disables auto-scaling.
 var kubernetesClusterScaleCmd = &cobra.Command{
 	Use:   "scale",
 	Short: "Scale a kubernetes cluster",
@@ -75,6 +87,8 @@ var kubernetesClusterScaleCmd = &cobra.Command{
 	},
 }
 
+// init registers the `cluster scale` command with the parent `cluster` command
+// and binds the flags for the `scaleOptions` struct.
 func init() {
 	KubernetesClusterCmd.AddCommand(kubernetesClusterScaleCmd)
 	_ = cli.BindFlagsFromStruct(kubernetesClusterScaleCmd, &scaleOpts)

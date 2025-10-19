@@ -12,12 +12,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// serviceOfferingsListOptions holds the options for the `cluster offering` command.
+// These options are populated from command-line flags.
 type serviceOfferingsListOptions struct {
+	// ZoneID is the ID of the zone to list service offerings from.
+	// This is optional if a default zone is set in the config.
 	ZoneID string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
 }
 
 var serviceOfferingsListOpts serviceOfferingsListOptions
 
+// kubernetesServiceOfferingsListCmd represents the `cluster offering` command.
+// It lists all available Kubernetes service offerings in a specified zone.
 var kubernetesServiceOfferingsListCmd = &cobra.Command{
 	Use:     "offering",
 	Aliases: []string{"service-offerings", "offerings-list", "offerings", "service-offerings-list"},
@@ -65,6 +71,8 @@ var kubernetesServiceOfferingsListCmd = &cobra.Command{
 	},
 }
 
+// init registers the `cluster offering` command with the parent `cluster` command
+// and binds the flags for the `serviceOfferingsListOptions` struct.
 func init() {
 	KubernetesClusterCmd.AddCommand(kubernetesServiceOfferingsListCmd)
 	_ = cli.BindFlagsFromStruct(kubernetesServiceOfferingsListCmd, &serviceOfferingsListOpts)

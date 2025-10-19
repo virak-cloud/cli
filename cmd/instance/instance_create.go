@@ -16,17 +16,31 @@ import (
 	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
+// instanceCreateOptions holds the options for the `instance create` command.
+// These options are populated from command-line flags or through the interactive mode.
 type instanceCreateOptions struct {
+	// ZoneID is the ID of the zone where the instance will be created.
+	// This is optional if a default zone is set in the config.
 	ZoneID            string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// ServiceOfferingID is the ID of the service offering for the instance.
 	ServiceOfferingID string `flag:"service-offering-id" usage:"ID of the service offering"`
+	// VMImageID is the ID of the VM image to use for the instance.
 	VMImageID         string `flag:"vm-image-id" usage:"ID of the VM image"`
+	// NetworkIDsRaw is a JSON array of network IDs to attach to the instance.
 	NetworkIDsRaw     string `flag:"network-ids" usage:"JSON array of network IDs, e.g. '[\"id1\",\"id2\"]'"`
+	// Name is the name of the instance.
 	Name              string `flag:"name" usage:"Name of the instance"`
+	// Interactive specifies whether to run the command in interactive mode.
 	Interactive       bool   `flag:"interactive" usage:"Run interactive instance creation workflow"`
 }
 
 var createOpt instanceCreateOptions
 
+// instanceCreateCmd represents the `instance create` command.
+// It creates a new virtual machine instance in a specified zone.
+// The command can be run in two modes:
+// - Non-interactive: All required parameters are provided as flags.
+// - Interactive: The command prompts the user to select the service offering, VM image, networks, and to provide a name for the instance.
 var instanceCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create a new instance in a zone",
@@ -240,6 +254,8 @@ var instanceCreateCmd = &cobra.Command{
 	},
 }
 
+// init registers the `instance create` command with the parent `instance` command
+// and binds the flags for the `instanceCreateOptions` struct.
 func init() {
 	InstanceCmd.AddCommand(instanceCreateCmd)
 	_ = cli.BindFlagsFromStruct(instanceCreateCmd, &createOpt)

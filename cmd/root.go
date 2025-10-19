@@ -1,3 +1,6 @@
+// Package cmd implements the command-line interface for the Virak CLI.
+// It uses the Cobra library to create a CLI application with subcommands for managing
+// different cloud resources.
 package cmd
 
 import (
@@ -18,7 +21,8 @@ import (
 
 var disableLog bool
 
-// RootCmd represents the base command when called without any subcommands
+// RootCmd represents the base command when called without any subcommands.
+// It is the entry point for the CLI application and provides a brief description of the CLI.
 var RootCmd = &cobra.Command{
 	Use:   "virak-cli",
 	Short: "A command-line interface for interacting with the Virak Cloud API, built with the Go programming language.",
@@ -28,13 +32,12 @@ var RootCmd = &cobra.Command{
 			logger.InitLogger()
 		}
 	},
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
 	//Run: func(cmd *cobra.Command, args []string) {},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the RootCmd.
+// It is the main entry point for the CLI application.
 func Execute() {
 	err := RootCmd.Execute()
 	if err != nil {
@@ -42,6 +45,8 @@ func Execute() {
 	}
 }
 
+// init initializes the root command by adding persistent flags and subcommands.
+// It also sets up the configuration initialization.
 func init() {
 	RootCmd.PersistentFlags().BoolVar(&disableLog, "disable-log", false, "Disable logging")
 	cobra.OnInitialize(initConfig)
@@ -55,6 +60,7 @@ func init() {
 }
 
 // initConfig reads in config file and ENV variables if set.
+// It creates a default config file if one is not found.
 func initConfig() {
 	home, err := os.UserHomeDir()
 	if err != nil {

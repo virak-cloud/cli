@@ -13,14 +13,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// lbListOptions holds the options for the `network lb list` command.
+// These options are populated from command-line flags.
 type lbListOptions struct {
+	// ZoneID is the ID of the zone where the load balancer is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID    string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to list the load balancer rules for.
 	NetworkID string `flag:"networkId" usage:"Network ID for the load balancer"`
 }
 
 var lbListOpts lbListOptions
 
-// NetworkLbListCmd is the command for listing load balancing rules.
+// NetworkLbListCmd represents the `network lb list` command.
+// It lists all load balancing rules for a network.
 var NetworkLbListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all load balancing rules for a network",
@@ -65,6 +71,8 @@ var NetworkLbListCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network lb list` command with the parent `network lb` command
+// and binds the flags for the `lbListOptions` struct.
 func init() {
 	NetworkLbCmd.AddCommand(NetworkLbListCmd)
 	_ = cli.BindFlagsFromStruct(NetworkLbListCmd, &lbListOpts)

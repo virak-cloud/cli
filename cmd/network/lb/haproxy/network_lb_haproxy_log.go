@@ -9,13 +9,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// lbHaproxyLogOptions holds the options for the `network lb haproxy log` command.
+// These options are populated from command-line flags.
 type lbHaproxyLogOptions struct {
+	// ZoneID is the ID of the zone where the load balancer is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID    string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to get the HAProxy logs for.
 	NetworkID string `flag:"networkId" usage:"Network ID for the load balancer"`
 }
 
 var lbHaproxyLogOpts lbHaproxyLogOptions
 
+// NetworkLbHaproxyLogCmd represents the `network lb haproxy log` command.
+// It gets HAProxy logs for a network.
 var NetworkLbHaproxyLogCmd = &cobra.Command{
 	Use:   "log",
 	Short: "Get HAProxy logs for the network",
@@ -51,6 +58,8 @@ var NetworkLbHaproxyLogCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network lb haproxy log` command with the parent `network lb haproxy` command
+// and binds the flags for the `lbHaproxyLogOptions` struct.
 func init() {
 	NetworkLbHaproxyCmd.AddCommand(NetworkLbHaproxyLogCmd)
 	_ = cli.BindFlagsFromStruct(NetworkLbHaproxyLogCmd, &lbHaproxyLogOpts)

@@ -1,3 +1,9 @@
+// Package http provides network management operations for the Virak Cloud API.
+//
+// This file contains client methods for managing network infrastructure, including
+// L2/L3 network creation and configuration, firewall rules, load balancers,
+// VPN connections, public IP management, and network-instance connectivity.
+// All operations are performed within the context of a specific zone.
 package http
 
 import (
@@ -10,6 +16,22 @@ import (
 	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
+// CreateL3Network creates a new Layer 3 network with routing capabilities.
+//
+// Creates an L3 network that operates at the network layer with routing between
+// broadcast domains. This provides isolation and routing capabilities for
+// instances connected to the network.
+//
+// Parameters:
+//   - zoneId: Zone where the network will be created
+//   - networkOfferingId: Service offering defining network specifications
+//   - name: Human-readable name for the network
+//   - gateway: Gateway IP address for the network
+//   - netmask: Network mask for the subnet
+//
+// Returns:
+//   - *responses.NetworkCreateResponse: Created network details with job ID
+//   - error: Validation error or API failure
 func (client *Client) CreateL3Network(zoneId, networkOfferingId, name, gateway, netmask string) (*responses.NetworkCreateResponse, error) {
 	var result responses.NetworkCreateResponse
 	url := fmt.Sprintf(urls.NetworkCreateL3, urls.BaseUrl, zoneId)
@@ -28,6 +50,20 @@ func (client *Client) CreateL3Network(zoneId, networkOfferingId, name, gateway, 
 	return &result, nil
 }
 
+// CreateL2Network creates a new Layer 2 network for switching within a broadcast domain.
+//
+// Creates an L2 network that operates at the data link layer, providing
+// Ethernet switching capabilities within a single broadcast domain. Instances
+// on the same L2 network can communicate directly at Layer 2.
+//
+// Parameters:
+//   - zoneId: Zone where the network will be created
+//   - networkOfferingId: Service offering defining network specifications
+//   - name: Human-readable name for the network
+//
+// Returns:
+//   - *responses.NetworkCreateResponse: Created network details with job ID
+//   - error: Validation error or API failure
 func (client *Client) CreateL2Network(zoneId, networkOfferingId, name string) (*responses.NetworkCreateResponse, error) {
 	var result responses.NetworkCreateResponse
 	url := fmt.Sprintf(urls.NetworkCreateL2, urls.BaseUrl, zoneId)
@@ -44,6 +80,18 @@ func (client *Client) CreateL2Network(zoneId, networkOfferingId, name string) (*
 	return &result, nil
 }
 
+// ListNetworks retrieves all networks in the specified zone.
+//
+// Returns a comprehensive list of all L2 and L3 networks accessible to the
+// user within the specified zone, including their configuration, status,
+// and connected resources.
+//
+// Parameters:
+//   - zoneId: Zone to query for networks
+//
+// Returns:
+//   - *responses.NetworkListResponse: List of networks with detailed metadata
+//   - error: API error or network failure
 func (client *Client) ListNetworks(zoneId string) (*responses.NetworkListResponse, error) {
 	var result responses.NetworkListResponse
 	url := fmt.Sprintf(urls.NetworkList, urls.BaseUrl, zoneId)
@@ -54,6 +102,18 @@ func (client *Client) ListNetworks(zoneId string) (*responses.NetworkListRespons
 	return &result, nil
 }
 
+// ShowNetwork retrieves detailed information about a specific network.
+//
+// Returns comprehensive details about a network including its configuration,
+// connected instances, IP address allocation, and security settings.
+//
+// Parameters:
+//   - zoneId: Zone containing the network
+//   - networkId: Network to retrieve details for
+//
+// Returns:
+//   - *responses.NetworkShowResponse: Detailed network information
+//   - error: API error if network doesn't exist or access is denied
 func (client *Client) ShowNetwork(zoneId, networkId string) (*responses.NetworkShowResponse, error) {
 	var result responses.NetworkShowResponse
 	url := fmt.Sprintf(urls.NetworkShow, urls.BaseUrl, zoneId, networkId)

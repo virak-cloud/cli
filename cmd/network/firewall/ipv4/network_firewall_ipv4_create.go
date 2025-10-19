@@ -11,22 +11,38 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// firewallIPv4CreateOptions holds the options for the `network firewall ipv4 create` command.
+// These options are populated from command-line flags.
 type firewallIPv4CreateOptions struct {
+	// ZoneID is the ID of the zone where the network is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID        string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to add the firewall rule to.
 	NetworkID     string `flag:"networkId" desc:"Network ID (required)"`
+	// TrafficType is the type of traffic to match (Ingress or Egress).
 	TrafficType   string `flag:"trafficType" desc:"Traffic type (Ingress/Egress) [required]"`
+	// ProtocolType is the protocol to match (TCP, UDP, or ICMP).
 	ProtocolType  string `flag:"protocolType" desc:"Protocol type (TCP/UDP/ICMP) [required]"`
+	// PublicIpId is the ID of the public IP address to associate with the rule.
 	PublicIpId    string `flag:"publicIpId" desc:"Public IP ID (optional)"`
+	// IPSource is the source IP address or CIDR block to match.
 	IPSource      string `flag:"ipSource" desc:"Source IP [required]"`
+	// IPDestination is the destination IP address or CIDR block to match.
 	IPDestination string `flag:"ipDestination" desc:"Destination IP [required]"`
+	// PortStart is the starting port number for TCP or UDP traffic.
 	PortStart     int    `flag:"portStart" desc:"Start port (optional)"`
+	// PortEnd is the ending port number for TCP or UDP traffic.
 	PortEnd       int    `flag:"portEnd" desc:"End port (optional)"`
+	// ICMPCode is the ICMP code to match.
 	ICMPCode      int    `flag:"icmpCode" desc:"ICMP code (optional)"`
+	// ICMPType is the ICMP type to match.
 	ICMPType      int    `flag:"icmpType" desc:"ICMP type (optional)"`
 }
 
 var firewallIPv4CreateOpts firewallIPv4CreateOptions
 
+// NetworkFirewallIPv4CreateCmd represents the `network firewall ipv4 create` command.
+// It creates a new IPv4 firewall rule for a network.
 var NetworkFirewallIPv4CreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create an IPv4 firewall rule for a network",
@@ -88,6 +104,8 @@ var NetworkFirewallIPv4CreateCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network firewall ipv4 create` command with the parent `network firewall ipv4` command
+// and binds the flags for the `firewallIPv4CreateOptions` struct.
 func init() {
 	NetworkFirewallIPv4Cmd.AddCommand(NetworkFirewallIPv4CreateCmd)
 	_ = cli.BindFlagsFromStruct(NetworkFirewallIPv4CreateCmd, &firewallIPv4CreateOpts)

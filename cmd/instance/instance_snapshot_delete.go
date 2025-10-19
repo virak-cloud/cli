@@ -13,15 +13,27 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// snapshotDeleteOptions holds the options for the `instance snapshot delete` command.
+// These options are populated from command-line flags or through the interactive mode.
 type snapshotDeleteOptions struct {
+	// ZoneID is the ID of the zone where the instance is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// InstanceID is the ID of the instance the snapshot belongs to.
 	InstanceID  string `flag:"instanceId" usage:"Instance ID"`
+	// SnapshotID is the ID of the snapshot to be deleted.
 	SnapshotID  string `flag:"snapshotId" usage:"Snapshot ID"`
+	// Interactive specifies whether to run the command in interactive mode.
 	Interactive bool   `flag:"interactive" usage:"Interactively select instance and snapshot"`
 }
 
 var snapshotDeleteOpt snapshotDeleteOptions
 
+// instanceSnapshotDeleteCmd represents the `instance snapshot delete` command.
+// It deletes a snapshot of a virtual machine instance.
+// The command can be run in two modes:
+// - Non-interactive: The instance ID and snapshot ID are provided as flags.
+// - Interactive: The command prompts the user to select an instance and then a snapshot to delete.
 var instanceSnapshotDeleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete a snapshot of an instance",
@@ -114,6 +126,8 @@ var instanceSnapshotDeleteCmd = &cobra.Command{
 	},
 }
 
+// init registers the `instance snapshot delete` command with the parent `instance snapshot` command
+// and binds the flags for the `snapshotDeleteOptions` struct.
 func init() {
 	instanceSnapshotCmd.AddCommand(instanceSnapshotDeleteCmd)
 	_ = cli.BindFlagsFromStruct(instanceSnapshotDeleteCmd, &snapshotDeleteOpt)

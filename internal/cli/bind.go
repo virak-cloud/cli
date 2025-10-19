@@ -11,14 +11,21 @@ import (
 	"github.com/spf13/viper"
 )
 
+// FlagSpec defines the specification for a command-line flag.
 type FlagSpec struct {
+	// Name is the name of the flag.
 	Name  string
+	// Usage is the help text for the flag.
 	Usage string
+	// Def is the default value for the flag.
 	Def   string
 }
 
-// BindFlagsFromStruct declares flags based on struct tags.
-// Supported tags: flag, usage, default
+// BindFlagsFromStruct declares flags on a cobra command based on struct tags.
+// It supports the following tags:
+// - `flag`: the name of the flag.
+// - `usage`: the help text for the flag.
+// - `default`: the default value for the flag.
 func BindFlagsFromStruct(cmd *cobra.Command, opts any) error {
 	t := reflect.TypeOf(opts)
 	if t.Kind() == reflect.Pointer {
@@ -63,7 +70,8 @@ func BindFlagsFromStruct(cmd *cobra.Command, opts any) error {
 	return nil
 }
 
-// LoadFromViper decodes viper keyspace into the struct. Flags are already bound.
+// LoadFromViper decodes viper keyspace into the provided struct.
+// It assumes that the flags have already been bound to viper.
 func LoadFromViper(opts any) error {
 	dec, err := mapstructure.NewDecoder(&mapstructure.DecoderConfig{TagName: "mapstructure", Result: opts})
 	if err != nil {
@@ -72,9 +80,9 @@ func LoadFromViper(opts any) error {
 	return dec.Decode(viper.AllSettings())
 }
 
-// LoadFromCobraFlags reads values of flags defined on cmd according to `flag` tags
-// on the fields of opts (a pointer to struct) and writes them into opts.
-// Supported field kinds: string, bool.
+// LoadFromCobraFlags reads the values of flags defined on a cobra command
+// and loads them into the fields of the provided struct, based on the `flag` tag.
+// It supports string, bool, int, and []string field kinds.
 func LoadFromCobraFlags(cmd *cobra.Command, opts any) error {
 	v := reflect.ValueOf(opts)
 	if v.Kind() != reflect.Pointer || v.Elem().Kind() != reflect.Struct {

@@ -13,14 +13,25 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// volumeDeleteOptions holds the options for the `instance volume delete` command.
+// These options are populated from command-line flags or through the interactive mode.
 type volumeDeleteOptions struct {
+	// ZoneID is the ID of the zone where the volume is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// VolumeID is the ID of the volume to be deleted.
 	VolumeID    string `flag:"volumeId" usage:"Volume ID"`
+	// Interactive specifies whether to run the command in interactive mode.
 	Interactive bool   `flag:"interactive" usage:"Interactively select volume to delete"`
 }
 
 var volumeDeleteOpt volumeDeleteOptions
 
+// instanceVolumeDeleteCmd represents the `instance volume delete` command.
+// It deletes a data volume.
+// The command can be run in two modes:
+// - Non-interactive: The volume ID is provided as a flag.
+// - Interactive: The command prompts the user to select a volume to delete.
 var instanceVolumeDeleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete a volume",
@@ -90,6 +101,8 @@ var instanceVolumeDeleteCmd = &cobra.Command{
 	},
 }
 
+// init registers the `instance volume delete` command with the parent `instance volume` command
+// and binds the flags for the `volumeDeleteOptions` struct.
 func init() {
 	instanceVolumeCmd.AddCommand(instanceVolumeDeleteCmd)
 	_ = cli.BindFlagsFromStruct(instanceVolumeDeleteCmd, &volumeDeleteOpt)

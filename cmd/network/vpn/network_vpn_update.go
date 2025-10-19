@@ -11,14 +11,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// vpnUpdateOptions holds the options for the `network vpn update` command.
+// These options are populated from command-line flags.
 type vpnUpdateOptions struct {
+	// ZoneID is the ID of the zone where the network is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID    string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to update VPN credentials for.
 	NetworkID string `flag:"networkId" usage:"Network ID for the VPN"`
 }
 
 var vpnUpdateOpts vpnUpdateOptions
 
-// NetworkVpnUpdateCmd is the command to update VPN credentials for a network.
+// NetworkVpnUpdateCmd represents the `network vpn update` command.
+// It updates VPN credentials for a network.
 var NetworkVpnUpdateCmd = &cobra.Command{
 	Use:   "update",
 	Short: "Update VPN credentials for a network",
@@ -56,6 +62,8 @@ var NetworkVpnUpdateCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network vpn update` command with the parent `network vpn` command
+// and binds the flags for the `vpnUpdateOptions` struct.
 func init() {
 	NetworkVpnCmd.AddCommand(NetworkVpnUpdateCmd)
 	_ = cli.BindFlagsFromStruct(NetworkVpnUpdateCmd, &vpnUpdateOpts)

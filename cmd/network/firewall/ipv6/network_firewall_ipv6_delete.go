@@ -10,14 +10,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// firewallIPv6DeleteOptions holds the options for the `network firewall ipv6 delete` command.
+// These options are populated from command-line flags.
 type firewallIPv6DeleteOptions struct {
+	// ZoneId is the ID of the zone where the network is located.
+	// This is optional if a default zone is set in the config.
 	ZoneId    string `flag:"zoneId" desc:"Zone ID (optional if default.zoneId is set in config)"`
+	// NetworkId is the ID of the network to delete the firewall rule from.
 	NetworkId string `flag:"networkId" desc:"Network ID (required)"`
+	// RuleId is the ID of the firewall rule to be deleted.
 	RuleId    string `flag:"ruleId" desc:"Firewall Rule ID (required)"`
 }
 
 var firewallIPv6DeleteOpts firewallIPv6DeleteOptions
 
+// NetworkFirewallIPv6DeleteCmd represents the `network firewall ipv6 delete` command.
+// It deletes an IPv6 firewall rule from a network.
 var NetworkFirewallIPv6DeleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete an IPv6 firewall rule from a network",
@@ -57,6 +65,8 @@ var NetworkFirewallIPv6DeleteCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network firewall ipv6 delete` command with the parent `network firewall ipv6` command
+// and binds the flags for the `firewallIPv6DeleteOptions` struct.
 func init() {
 	NetworkFirewallIPv6Cmd.AddCommand(NetworkFirewallIPv6DeleteCmd)
 	_ = cli.BindFlagsFromStruct(NetworkFirewallIPv6DeleteCmd, &firewallIPv6DeleteOpts)

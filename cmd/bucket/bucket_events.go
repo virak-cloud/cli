@@ -11,12 +11,21 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// eventsOptions holds the options for the `bucket events` command.
+// These options are populated from command-line flags.
 type eventsOptions struct {
+	// ZoneID is the ID of the zone where the bucket is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID   string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// BucketID is the ID of the bucket to retrieve events for.
+	// If not provided, events for all buckets in the zone will be retrieved.
 	BucketID string `flag:"bucketId" usage:"Id of the bucket"`
 }
 
 var eventOpt eventsOptions
+
+// objectStorageEventsCmd represents the `bucket events` command.
+// It retrieves events for a specific object storage bucket or for all buckets in a zone.
 var objectStorageEventsCmd = &cobra.Command{
 	Use:   "events",
 	Short: "List object storage events in a zone",
@@ -62,6 +71,8 @@ var objectStorageEventsCmd = &cobra.Command{
 	},
 }
 
+// init registers the `bucket events` command with the parent `bucket` command
+// and binds the flags for the `eventsOptions` struct.
 func init() {
 	ObjectStorageCmd.AddCommand(objectStorageEventsCmd)
 

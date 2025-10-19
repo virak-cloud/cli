@@ -14,12 +14,17 @@ import (
 	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
+// recordListOptions holds the options for the `dns record list` command.
+// These options are populated from command-line flags.
 type recordListOptions struct {
+	// Domain is the name of the domain to list records for.
 	Domain string `flag:"domain" usage:"Domain name"`
 }
 
 var recordListOpts recordListOptions
 
+// recordListCmd represents the `dns record list` command.
+// It lists all DNS records for a given domain.
 var recordListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all records for a domain",
@@ -48,6 +53,7 @@ var recordListCmd = &cobra.Command{
 	},
 }
 
+// renderRecordList renders a table of DNS records.
 func renderRecordList(resp *responses.RecordList) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Name", "Type", "TTL", "Status", "Protected", "Content"})
@@ -66,6 +72,8 @@ func renderRecordList(resp *responses.RecordList) {
 	table.Render()
 }
 
+// init registers the `dns record list` command with the parent `dns record` command
+// and binds the flags for the `recordListOptions` struct.
 func init() {
 	recordCmd.AddCommand(recordListCmd)
 	_ = cli.BindFlagsFromStruct(recordListCmd, &recordListOpts)

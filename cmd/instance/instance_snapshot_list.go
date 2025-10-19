@@ -15,14 +15,25 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// snapshotListOptions holds the options for the `instance snapshot list` command.
+// These options are populated from command-line flags or through the interactive mode.
 type snapshotListOptions struct {
+	// ZoneID is the ID of the zone where the instance is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// InstanceID is the ID of the instance to list snapshots for.
 	InstanceID  string `flag:"instanceId" usage:"Instance ID"`
+	// Interactive specifies whether to run the command in interactive mode.
 	Interactive bool   `flag:"interactive" usage:"Interactively select instance"`
 }
 
 var snapshotListOpt snapshotListOptions
 
+// instanceSnapshotListCmd represents the `instance snapshot list` command.
+// It lists all snapshots of a virtual machine instance.
+// The command can be run in two modes:
+// - Non-interactive: The instance ID is provided as a flag.
+// - Interactive: The command prompts the user to select an instance to list snapshots for.
 var instanceSnapshotListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List snapshots of an instance",
@@ -97,6 +108,7 @@ var instanceSnapshotListCmd = &cobra.Command{
 	},
 }
 
+// renderInstanceSnapshots renders a table of instance snapshots.
 func renderInstanceSnapshots(snapshots []responses.InstanceSnapshot) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"ID", "Name", "Status", "CreatedAt", "Current", "ParentID"})
@@ -119,6 +131,8 @@ func renderInstanceSnapshots(snapshots []responses.InstanceSnapshot) {
 	table.Render()
 }
 
+// init registers the `instance snapshot list` command with the parent `instance snapshot` command
+// and binds the flags for the `snapshotListOptions` struct.
 func init() {
 	instanceSnapshotCmd.AddCommand(instanceSnapshotListCmd)
 	_ = cli.BindFlagsFromStruct(instanceSnapshotListCmd, &snapshotListOpt)

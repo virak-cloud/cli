@@ -10,16 +10,26 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// createL3NetworkOptions holds the options for the `network create l3` command.
+// These options are populated from command-line flags.
 type createL3NetworkOptions struct {
+	// ZoneID is the ID of the zone where the network will be created.
+	// This is optional if a default zone is set in the config.
 	ZoneID            string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkOfferingID is the ID of the L3 network offering to use.
 	NetworkOfferingID string `flag:"network-offering-id" usage:"Network offering ID"`
+	// Name is the name of the new L3 network.
 	Name              string `flag:"name" usage:"Network name"`
+	// Gateway is the gateway IP address for the L3 network.
 	Gateway           string `flag:"gateway" usage:"Gateway IP address"`
+	// Netmask is the netmask for the L3 network.
 	Netmask           string `flag:"netmask" usage:"Netmask"`
 }
 
 var l3NetworkOptions createL3NetworkOptions
 
+// networkCreateL3Cmd represents the `network create l3` command.
+// It creates a new Layer 3 network in a specified zone.
 var networkCreateL3Cmd = &cobra.Command{
 	Use:   "l3",
 	Short: "Create a new L3 network in a zone",
@@ -84,6 +94,8 @@ var networkCreateL3Cmd = &cobra.Command{
 	},
 }
 
+// init registers the `network create l3` command with the parent `network create` command
+// and binds the flags for the `createL3NetworkOptions` struct.
 func init() {
 	_ = cli.BindFlagsFromStruct(networkCreateL3Cmd, &l3NetworkOptions)
 	NetworkCreateCmd.AddCommand(networkCreateL3Cmd)

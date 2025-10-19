@@ -4,7 +4,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// NetworkPublicIPStaticNatCmd represents the staticnat subgroup under network public ip
+// NetworkPublicIPStaticNatCmd is the parent command for all static NAT related commands.
+// It doesn't have a run function of its own, as it relies on subcommands for its functionality.
 var NetworkPublicIPStaticNatCmd = &cobra.Command{
 	Use:   "staticnat",
 	Short: "Manage static NAT for public IPs in a network",

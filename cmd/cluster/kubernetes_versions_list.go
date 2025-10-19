@@ -12,12 +12,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// versionsListOptions holds the options for the `cluster versions-list` command.
+// These options are populated from command-line flags.
 type versionsListOptions struct {
+	// ZoneID is the ID of the zone to list Kubernetes versions from.
+	// This is optional if a default zone is set in the config.
 	ZoneID string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
 }
 
 var versionsListOpts versionsListOptions
 
+// kubernetesVersionsListCmd represents the `cluster versions-list` command.
+// It lists all available Kubernetes versions in a specified zone.
 var kubernetesVersionsListCmd = &cobra.Command{
 	Use:   "versions-list",
 	Short: "List available kubernetes versions",
@@ -50,6 +56,8 @@ var kubernetesVersionsListCmd = &cobra.Command{
 	},
 }
 
+// init registers the `cluster versions-list` command with the parent `cluster` command
+// and binds the flags for the `versionsListOptions` struct.
 func init() {
 	KubernetesClusterCmd.AddCommand(kubernetesVersionsListCmd)
 	_ = cli.BindFlagsFromStruct(kubernetesVersionsListCmd, &versionsListOpts)

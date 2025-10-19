@@ -11,14 +11,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// vpnEnableOptions holds the options for the `network vpn enable` command.
+// These options are populated from command-line flags.
 type vpnEnableOptions struct {
+	// ZoneID is the ID of the zone where the network is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID    string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to enable VPN for.
 	NetworkID string `flag:"networkId" usage:"Network ID for the VPN"`
 }
 
 var vpnEnableOpts vpnEnableOptions
 
-// NetworkVpnEnableCmd is the command to enable VPN for a network.
+// NetworkVpnEnableCmd represents the `network vpn enable` command.
+// It enables VPN for a network.
 var NetworkVpnEnableCmd = &cobra.Command{
 	Use:   "enable",
 	Short: "Enable VPN for a network",
@@ -56,6 +62,8 @@ var NetworkVpnEnableCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network vpn enable` command with the parent `network vpn` command
+// and binds the flags for the `vpnEnableOptions` struct.
 func init() {
 	NetworkVpnCmd.AddCommand(NetworkVpnEnableCmd)
 	_ = cli.BindFlagsFromStruct(NetworkVpnEnableCmd, &vpnEnableOpts)

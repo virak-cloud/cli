@@ -9,16 +9,24 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// lbDeassignOptions holds the options for the `network lb deassign` command.
+// These options are populated from command-line flags.
 type lbDeassignOptions struct {
+	// ZoneID is the ID of the zone where the load balancer is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID            string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network where the load balancer is located.
 	NetworkID         string `flag:"networkId" usage:"Network ID for the load balancer"`
+	// RuleID is the ID of the load balancer rule to de-assign the instance from.
 	RuleID            string `flag:"ruleId" usage:"Load balancer rule ID"`
+	// InstanceNetworkID is the ID of the instance network to de-assign from the rule.
 	InstanceNetworkID string `flag:"instanceNetworkId" usage:"Instance network ID to de-assign"`
 }
 
 var lbDeassignOpts lbDeassignOptions
 
-// NetworkLbDeassignCmd is the command for de-assigning an instance from a load balancing rule.
+// NetworkLbDeassignCmd represents the `network lb deassign` command.
+// It de-assigns an instance from a load balancing rule.
 var NetworkLbDeassignCmd = &cobra.Command{
 	Use:   "deassign",
 	Short: "De-assign an instance from a load balancing rule",
@@ -55,6 +63,8 @@ var NetworkLbDeassignCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network lb deassign` command with the parent `network lb` command
+// and binds the flags for the `lbDeassignOptions` struct.
 func init() {
 	NetworkLbCmd.AddCommand(NetworkLbDeassignCmd)
 	_ = cli.BindFlagsFromStruct(NetworkLbDeassignCmd, &lbDeassignOpts)

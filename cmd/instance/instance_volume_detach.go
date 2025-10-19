@@ -13,15 +13,27 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// volumeDetachOptions holds the options for the `instance volume detach` command.
+// These options are populated from command-line flags or through the interactive mode.
 type volumeDetachOptions struct {
+	// ZoneID is the ID of the zone where the volume and instance are located.
+	// This is optional if a default zone is set in the config.
 	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// VolumeID is the ID of the volume to be detached.
 	VolumeID    string `flag:"volumeId" usage:"Volume ID"`
+	// InstanceID is the ID of the instance to detach the volume from.
 	InstanceID  string `flag:"instanceId" usage:"Instance ID"`
+	// Interactive specifies whether to run the command in interactive mode.
 	Interactive bool   `flag:"interactive" usage:"Interactively select volume and instance to detach"`
 }
 
 var volumeDetachOpt volumeDetachOptions
 
+// instanceVolumeDetachCmd represents the `instance volume detach` command.
+// It detaches a volume from a virtual machine instance.
+// The command can be run in two modes:
+// - Non-interactive: The volume ID and instance ID are provided as flags.
+// - Interactive: The command prompts the user to select a volume and an instance to detach it from.
 var instanceVolumeDetachCmd = &cobra.Command{
 	Use:   "detach",
 	Short: "Detach a volume from an instance",
@@ -118,6 +130,8 @@ var instanceVolumeDetachCmd = &cobra.Command{
 	},
 }
 
+// init registers the `instance volume detach` command with the parent `instance volume` command
+// and binds the flags for the `volumeDetachOptions` struct.
 func init() {
 	instanceVolumeCmd.AddCommand(instanceVolumeDetachCmd)
 	_ = cli.BindFlagsFromStruct(instanceVolumeDetachCmd, &volumeDetachOpt)

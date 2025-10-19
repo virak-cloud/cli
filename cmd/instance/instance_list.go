@@ -13,14 +13,22 @@ import (
 	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
+// listOptions holds the options for the `instance list` command.
+// These options are populated from command-line flags.
 type listOptions struct {
+	// ZoneID is the ID of the zone to list instances from.
+	// This is optional if a default zone is set in the config.
 	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// Columns is a comma-separated list of columns to display in the output.
 	Columns     string `flag:"columns" usage:"Comma-separated list of columns to display"`
+	// ListColumns specifies whether to show all valid columns for the instance list output.
 	ListColumns bool   `flag:"list-columns" usage:"Show all valid columns for instance list output"`
 }
 
 var listOpt listOptions
 
+// validListColumns defines the valid columns that can be displayed in the instance list output.
+// The map key is the column name, and the value is a struct containing the header and a function to extract the value from an instance.
 var validListColumns = map[string]struct {
 	Header string
 	Value  func(instance responses.Instance) string
@@ -241,8 +249,12 @@ var validListColumns = map[string]struct {
 	}},
 }
 
+// defaultListColumns is the default list of columns to display in the instance list output.
 var defaultListColumns = []string{"id", "name", "status", "created_at"}
 
+// instanceListCmd represents the `instance list` command.
+// It lists all virtual machine instances in a specified zone.
+// The user can customize the output by specifying the columns to display.
 var instanceListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all instances in a zone",
@@ -305,6 +317,7 @@ var instanceListCmd = &cobra.Command{
 	},
 }
 
+// renderInstances renders a table of instances with the specified columns.
 func renderInstances(instancesResponse *responses.InstanceListResponse, columns []string) {
 	var headers []string
 	for _, col := range columns {
@@ -322,6 +335,8 @@ func renderInstances(instancesResponse *responses.InstanceListResponse, columns 
 	table.Render()
 }
 
+// init registers the `instance list` command with the parent `instance` command
+// and binds the flags for the `listOptions` struct.
 func init() {
 	InstanceCmd.AddCommand(instanceListCmd)
 	_ = cli.BindFlagsFromStruct(instanceListCmd, &listOpt)

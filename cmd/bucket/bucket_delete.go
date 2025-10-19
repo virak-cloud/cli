@@ -10,13 +10,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// deleteOptions holds the options for the `bucket delete` command.
+// These options are populated from command-line flags.
 type deleteOptions struct {
+	// ZoneID is the ID of the zone where the bucket is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID   string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// BucketID is the ID of the bucket to be deleted.
 	BucketID string `flag:"bucketId" usage:"Id of the bucket"`
 }
 
 var deleteOpt deleteOptions
 
+// objectStorageDeleteCmd represents the `bucket delete` command.
+// It deletes an object storage bucket in a specified zone.
 var objectStorageDeleteCmd = &cobra.Command{
 	Use:   "delete [zoneId] [bucketId]",
 	Short: "Delete an object storage bucket",
@@ -53,6 +60,8 @@ var objectStorageDeleteCmd = &cobra.Command{
 	},
 }
 
+// init registers the `bucket delete` command with the parent `bucket` command
+// and binds the flags for the `deleteOptions` struct.
 func init() {
 	ObjectStorageCmd.AddCommand(objectStorageDeleteCmd)
 	_ = cli.BindFlagsFromStruct(objectStorageDeleteCmd, &deleteOpt)

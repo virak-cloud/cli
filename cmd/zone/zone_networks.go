@@ -10,13 +10,18 @@ import (
 	"github.com/virak-cloud/cli/pkg/http"
 )
 
+// zoneNetworksOptions holds the options for the `zone networks` command.
+// These options are populated from command-line flags.
 type zoneNetworksOptions struct {
+	// ZoneID is the ID of the zone to list networks for.
+	// This is optional if a default zone is set in the config.
 	ZoneID string `flag:"zoneId" desc:"Zone ID to use (optional if default.zoneId is set in config, overrides positional argument if set)"`
 }
 
 var networksOpt zoneNetworksOptions
 
-// networksCmd represents the networks command
+// networksCmd represents the `zone networks` command.
+// It lists all networks for a specific zone.
 var networksCmd = &cobra.Command{
 	Use:   "networks",
 	Short: "List networks for a specific zone",
@@ -51,6 +56,8 @@ var networksCmd = &cobra.Command{
 	},
 }
 
+// init registers the `zone networks` command with the parent `zone` command
+// and binds the flags for the `zoneNetworksOptions` struct.
 func init() {
 	ZoneCmd.AddCommand(networksCmd)
 	_ = cli.BindFlagsFromStruct(networksCmd, &networksOpt)

@@ -10,15 +10,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// disassociateOptions holds the options for the `network public-ip disassociate` command.
+// These options are populated from command-line flags.
 type disassociateOptions struct {
+	// ZoneID is the ID of the zone where the network is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID            string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to disassociate the public IP from.
 	NetworkID         string `flag:"networkId" usage:"Network ID to disassociate the public IP from"`
+	// NetworkPublicIPID is the ID of the public IP to be disassociated.
 	NetworkPublicIPID string `flag:"publicIpId" usage:"Public IP ID to disassociate from the network"`
 }
 
 var disassociateOpts disassociateOptions
 
-// NetworkPublicIPDisassociateCmd represents the disassociate subcommand
+// NetworkPublicIPDisassociateCmd represents the `network public-ip disassociate` command.
+// It disassociates a public IP from a network.
 var NetworkPublicIPDisassociateCmd = &cobra.Command{
 	Use:   "disassociate",
 	Short: "Disassociate a public IP from a network",
@@ -56,6 +63,8 @@ var NetworkPublicIPDisassociateCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network public-ip disassociate` command with the parent `network public-ip` command
+// and binds the flags for the `disassociateOptions` struct.
 func init() {
 	NetworkPublicIPCmd.AddCommand(NetworkPublicIPDisassociateCmd)
 	_ = cli.BindFlagsFromStruct(NetworkPublicIPDisassociateCmd, &disassociateOpts)

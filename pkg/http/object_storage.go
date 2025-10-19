@@ -1,3 +1,9 @@
+// Package http provides object storage management operations for the Virak Cloud API.
+//
+// This file contains client methods for managing object storage buckets, including
+// bucket creation, deletion, configuration, and event monitoring. Object storage
+// provides scalable storage for unstructured data with S3-compatible API access.
+// All operations are performed within the context of a specific zone.
 package http
 
 import (
@@ -10,8 +16,18 @@ import (
 	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
+// GetObjectStorageBuckets retrieves all object storage buckets in the specified zone.
+//
+// Returns a list of all buckets accessible to the user within the specified zone,
+// including their configuration, access policies, and usage statistics.
+//
+// Parameters:
+//   - zoneId: Zone to query for buckets
+//
+// Returns:
+//   - *responses.ObjectStorageBucketsResponse: List of buckets with metadata
+//   - error: API error or network failure
 func (client *Client) GetObjectStorageBuckets(zoneId string) (*responses.ObjectStorageBucketsResponse, error) {
-
 	var result responses.ObjectStorageBucketsResponse
 	url := fmt.Sprintf(urls.BucketList, urls.BaseUrl, zoneId)
 	err := client.handleRequest(http.MethodGet, url, nil, &result)
@@ -21,8 +37,21 @@ func (client *Client) GetObjectStorageBuckets(zoneId string) (*responses.ObjectS
 	return &result, nil
 }
 
+// CreateObjectStorageBucket creates a new object storage bucket.
+//
+// Creates a new bucket with the specified name and access policy. Buckets provide
+// scalable storage for objects with S3-compatible access. Bucket names must be
+// globally unique across the entire platform.
+//
+// Parameters:
+//   - zoneId: Zone where the bucket will be created
+//   - name: Globally unique bucket name
+//   - policy: Access policy (e.g., "private", "public-read", "public-read-write")
+//
+// Returns:
+//   - *responses.ObjectStorageBucketCreationResponse: Bucket creation details with access credentials
+//   - error: Validation error or API failure
 func (client *Client) CreateObjectStorageBucket(zoneId string, name string, policy string) (*responses.ObjectStorageBucketCreationResponse, error) {
-
 	var result responses.ObjectStorageBucketCreationResponse
 	url := fmt.Sprintf(urls.BucketCreate, urls.BaseUrl, zoneId)
 

@@ -13,15 +13,27 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// volumeAttachOptions holds the options for the `instance volume attach` command.
+// These options are populated from command-line flags or through the interactive mode.
 type volumeAttachOptions struct {
+	// ZoneID is the ID of the zone where the volume and instance are located.
+	// This is optional if a default zone is set in the config.
 	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// VolumeID is the ID of the volume to be attached.
 	VolumeID    string `flag:"volumeId" usage:"Volume ID"`
+	// InstanceID is the ID of the instance to attach the volume to.
 	InstanceID  string `flag:"instanceId" usage:"Instance ID"`
+	// Interactive specifies whether to run the command in interactive mode.
 	Interactive bool   `flag:"interactive" usage:"Interactively select volume and instance"`
 }
 
 var volumeAttachOpt volumeAttachOptions
 
+// instanceVolumeAttachCmd represents the `instance volume attach` command.
+// It attaches a volume to a virtual machine instance.
+// The command can be run in two modes:
+// - Non-interactive: The volume ID and instance ID are provided as flags.
+// - Interactive: The command prompts the user to select a volume and an instance to attach it to.
 var instanceVolumeAttachCmd = &cobra.Command{
 	Use:   "attach",
 	Short: "Attach a volume to an instance",
@@ -124,6 +136,8 @@ var instanceVolumeAttachCmd = &cobra.Command{
 	},
 }
 
+// init registers the `instance volume attach` command with the parent `instance volume` command
+// and binds the flags for the `volumeAttachOptions` struct.
 func init() {
 	instanceVolumeCmd.AddCommand(instanceVolumeAttachCmd)
 	_ = cli.BindFlagsFromStruct(instanceVolumeAttachCmd, &volumeAttachOpt)

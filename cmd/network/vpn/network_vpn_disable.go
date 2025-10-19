@@ -11,14 +11,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// vpnDisableOptions holds the options for the `network vpn disable` command.
+// These options are populated from command-line flags.
 type vpnDisableOptions struct {
+	// ZoneID is the ID of the zone where the network is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID    string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to disable VPN for.
 	NetworkID string `flag:"networkId" usage:"Network ID for the VPN"`
 }
 
 var vpnDisableOpts vpnDisableOptions
 
-// NetworkVpnDisableCmd is the command to disable VPN for a network.
+// NetworkVpnDisableCmd represents the `network vpn disable` command.
+// It disables VPN for a network.
 var NetworkVpnDisableCmd = &cobra.Command{
 	Use:   "disable",
 	Short: "Disable VPN for a network",
@@ -57,6 +63,8 @@ var NetworkVpnDisableCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network vpn disable` command with the parent `network vpn` command
+// and binds the flags for the `vpnDisableOptions` struct.
 func init() {
 	NetworkVpnCmd.AddCommand(NetworkVpnDisableCmd)
 	_ = cli.BindFlagsFromStruct(NetworkVpnDisableCmd, &vpnDisableOpts)

@@ -10,14 +10,24 @@ import (
 	httpc "github.com/virak-cloud/cli/pkg/http"
 )
 
+// createOptions holds the options for the `bucket create` command.
+// These options are populated from command-line flags.
+
 type createOptions struct {
+	// ZoneID is the ID of the zone where the bucket will be created.
+	// This is optional if a default zone is set in the config.
 	ZoneID string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
-	Name   string `flag:"name" usage:"Name of the bucket"`
+	// Name is the name of the bucket to be created.
+	Name string `flag:"name" usage:"Name of the bucket"`
+	// Policy is the access policy for the bucket.
+	// It can be either "Private" or "Public".
 	Policy string `flag:"policy" default:"Private" usage:"Policy (Private|Public)"`
 }
 
 var createOpt createOptions
 
+// bucketCreateCmd represents the `bucket create` command.
+// It creates a new object storage bucket in a specified zone.
 var bucketCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create an object storage bucket in a zone",
@@ -54,6 +64,8 @@ var bucketCreateCmd = &cobra.Command{
 	},
 }
 
+// init registers the `bucket create` command with the parent `bucket` command
+// and binds the flags for the `createOptions` struct.
 func init() {
 	ObjectStorageCmd.AddCommand(bucketCreateCmd)
 

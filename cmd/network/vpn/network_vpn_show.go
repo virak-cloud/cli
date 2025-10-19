@@ -10,14 +10,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// vpnShowOptions holds the options for the `network vpn show` command.
+// These options are populated from command-line flags.
 type vpnShowOptions struct {
+	// ZoneID is the ID of the zone where the network is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID    string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to show VPN details for.
 	NetworkID string `flag:"networkId" usage:"Network ID for the VPN"`
 }
 
 var vpnShowOpts vpnShowOptions
 
-// NetworkVpnShowCmd is the command to show VPN details for a network.
+// NetworkVpnShowCmd represents the `network vpn show` command.
+// It shows VPN details for a network.
 var NetworkVpnShowCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Show VPN details for a network",
@@ -46,6 +52,8 @@ var NetworkVpnShowCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network vpn show` command with the parent `network vpn` command
+// and binds the flags for the `vpnShowOptions` struct.
 func init() {
 	NetworkVpnCmd.AddCommand(NetworkVpnShowCmd)
 	_ = cli.BindFlagsFromStruct(NetworkVpnShowCmd, &vpnShowOpts)

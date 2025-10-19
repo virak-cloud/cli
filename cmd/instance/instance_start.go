@@ -14,14 +14,25 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// startOptions holds the options for the `instance start` command.
+// These options are populated from command-line flags or through the interactive mode.
 type startOptions struct {
+	// ZoneID is the ID of the zone where the instance is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// InstanceID is the ID of the instance to be started.
 	InstanceID  string `flag:"instance-id" usage:"ID of the instance to start"`
+	// Interactive specifies whether to run the command in interactive mode.
 	Interactive bool   `flag:"interactive" usage:"Run interactive instance start workflow"`
 }
 
 var startOpt startOptions
 
+// instanceStartCmd represents the `instance start` command.
+// It starts a stopped virtual machine instance.
+// The command can be run in two modes:
+// - Non-interactive: The instance ID is provided as a flag.
+// - Interactive: The command prompts the user to select a stopped instance to start.
 var instanceStartCmd = &cobra.Command{
 	Use:   "start",
 	Short: "Start a stopped instance",
@@ -112,6 +123,8 @@ var instanceStartCmd = &cobra.Command{
 	},
 }
 
+// init registers the `instance start` command with the parent `instance` command
+// and binds the flags for the `startOptions` struct.
 func init() {
 	InstanceCmd.AddCommand(instanceStartCmd)
 	_ = cli.BindFlagsFromStruct(instanceStartCmd, &startOpt)

@@ -11,16 +11,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// networkInstanceListOptions holds the flags for the 'network instance list' command.
+// networkInstanceListOptions holds the options for the `network instance list` command.
+// These options are populated from command-line flags.
 type networkInstanceListOptions struct {
+	// ZoneID is the ID of the zone where the network and instance are located.
+	// This is optional if a default zone is set in the config.
 	ZoneID     string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to list instances for.
 	NetworkID  string `flag:"networkId" usage:"Network ID"`
+	// InstanceID is the ID of the instance to list network connections for.
 	InstanceID string `flag:"instanceId" usage:"Instance ID"`
 }
 
 var networkInstanceListOpt networkInstanceListOptions
 
-// NetworkInstanceListCmd is the command for listing instances connected to a network.
+// NetworkInstanceListCmd represents the `network instance list` command.
+// It lists all instances connected to a network.
 var NetworkInstanceListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all instances connected to a network",
@@ -54,6 +60,8 @@ var NetworkInstanceListCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network instance list` command with the parent `network instance` command
+// and binds the flags for the `networkInstanceListOptions` struct.
 func init() {
 	NetworkInstanceCmd.AddCommand(NetworkInstanceListCmd)
 	_ = cli.BindFlagsFromStruct(NetworkInstanceListCmd, &networkInstanceListOpt)

@@ -13,6 +13,8 @@ import (
 	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
+// domainListCmd represents the `dns domain list` command.
+// It lists all DNS domains for the current user.
 var domainListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all domains",
@@ -34,6 +36,7 @@ var domainListCmd = &cobra.Command{
 	},
 }
 
+// renderDomainList renders a table of DNS domains.
 func renderDomainList(resp *responses.DomainList) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Domain", "Status"})
@@ -43,6 +46,7 @@ func renderDomainList(resp *responses.DomainList) {
 	table.Render()
 }
 
+// init registers the `dns domain list` command with the parent `dns domain` command.
 func init() {
 	domainCmd.AddCommand(domainListCmd)
 }

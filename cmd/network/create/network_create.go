@@ -4,7 +4,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// NetworkCreateCmd represents the create command for networks
+// NetworkCreateCmd is the parent command for all network creation commands.
+// It doesn't have a run function of its own, as it relies on subcommands for its functionality.
 var NetworkCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create a new network in a zone",

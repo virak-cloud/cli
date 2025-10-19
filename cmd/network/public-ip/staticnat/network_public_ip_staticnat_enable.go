@@ -9,16 +9,24 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// enableStaticIpOptions holds the options for the `network public-ip staticnat enable` command.
+// These options are populated from command-line flags.
 type enableStaticIpOptions struct {
+	// ZoneID is the ID of the zone where the network is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID            string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network.
 	NetworkID         string `flag:"networkId" usage:"Network ID"`
+	// NetworkPublicIPID is the ID of the public IP to enable static NAT for.
 	NetworkPublicIPID string `flag:"networkPublicIpId" usage:"Network Public IP ID"`
+	// InstanceID is the ID of the instance to associate with the static NAT.
 	InstanceID        string `flag:"instanceId" usage:"Instance ID"`
 }
 
 var enableOpts enableStaticIpOptions
 
-// NetworkPublicIPStaticNatEnableCmd represents the enable subcommand
+// NetworkPublicIPStaticNatEnableCmd represents the `network public-ip staticnat enable` command.
+// It enables static NAT for a public IP.
 var NetworkPublicIPStaticNatEnableCmd = &cobra.Command{
 	Use:   "enable",
 	Short: "Enable static NAT for a public IP",
@@ -62,6 +70,8 @@ var NetworkPublicIPStaticNatEnableCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network public-ip staticnat enable` command with the parent `network public-ip staticnat` command
+// and binds the flags for the `enableStaticIpOptions` struct.
 func init() {
 	NetworkPublicIPStaticNatCmd.AddCommand(NetworkPublicIPStaticNatEnableCmd)
 	_ = cli.BindFlagsFromStruct(NetworkPublicIPStaticNatEnableCmd, &enableOpts)

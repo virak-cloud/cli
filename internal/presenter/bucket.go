@@ -8,6 +8,7 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
+// RenderBucketList renders a table of object storage buckets.
 func RenderBucketList(buckets []responses.ObjectStorageBucket) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"ID", "Name", "URL", "Status", "Policy", "Size"})
@@ -18,6 +19,7 @@ func RenderBucketList(buckets []responses.ObjectStorageBucket) {
 	table.Render()
 }
 
+// RenderBucketDetail renders a table with the details of an object storage bucket.
 func RenderBucketDetail(bucket responses.ObjectStorageBucket) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Field", "Value"})
@@ -37,6 +39,7 @@ func RenderBucketDetail(bucket responses.ObjectStorageBucket) {
 	table.Render()
 }
 
+// RenderBucketEvents renders a table of object storage events.
 func RenderBucketEvents(events []responses.ObjectStorageEvent) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Bucket ID", "Source", "Type", "Content", "Created At"})
@@ -46,3 +49,4 @@ func RenderBucketEvents(events []responses.ObjectStorageEvent) {
 	}
 	table.Render()
 }
+

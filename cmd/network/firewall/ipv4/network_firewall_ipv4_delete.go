@@ -9,14 +9,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// firewallIPv4DeleteOptions holds the options for the `network firewall ipv4 delete` command.
+// These options are populated from command-line flags.
 type firewallIPv4DeleteOptions struct {
+	// ZoneID is the ID of the zone where the network is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID    string `flag:"zoneId" desc:"Zone ID (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to delete the firewall rule from.
 	NetworkID string `flag:"networkId" desc:"Network ID (required)"`
+	// RuleID is the ID of the firewall rule to be deleted.
 	RuleID    string `flag:"ruleId" desc:"Firewall Rule ID (required)"`
 }
 
 var firewallIPv4DeleteOpts firewallIPv4DeleteOptions
 
+// NetworkFirewallIPv4DeleteCmd represents the `network firewall ipv4 delete` command.
+// It deletes an IPv4 firewall rule from a network.
 var NetworkFirewallIPv4DeleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete an IPv4 firewall rule from a network",
@@ -54,6 +62,8 @@ var NetworkFirewallIPv4DeleteCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network firewall ipv4 delete` command with the parent `network firewall ipv4` command
+// and binds the flags for the `firewallIPv4DeleteOptions` struct.
 func init() {
 	NetworkFirewallIPv4Cmd.AddCommand(NetworkFirewallIPv4DeleteCmd)
 	_ = cli.BindFlagsFromStruct(NetworkFirewallIPv4DeleteCmd, &firewallIPv4DeleteOpts)

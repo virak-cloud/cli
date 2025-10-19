@@ -10,16 +10,24 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// lbAssignOptions holds the options for the `network lb assign` command.
+// These options are populated from command-line flags.
 type lbAssignOptions struct {
+	// ZoneID is the ID of the zone where the load balancer is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID             string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network where the load balancer is located.
 	NetworkID          string `flag:"networkId" usage:"Network ID for the load balancer"`
+	// RuleID is the ID of the load balancer rule to assign instances to.
 	RuleID             string `flag:"ruleId" usage:"Load balancer rule ID"`
+	// InstanceNetworkIds is a comma-separated list of instance network IDs to assign to the rule.
 	InstanceNetworkIds string `flag:"instanceNetworkIds" usage:"Comma-separated instance network IDs to assign"`
 }
 
 var lbAssignOpts lbAssignOptions
 
-// NetworkLbAssignCmd is the command for assigning instances to a load balancing rule.
+// NetworkLbAssignCmd represents the `network lb assign` command.
+// It assigns one or more instances to a load balancing rule.
 var NetworkLbAssignCmd = &cobra.Command{
 	Use:   "assign",
 	Short: "Assign instances to a load balancing rule",
@@ -63,6 +71,8 @@ var NetworkLbAssignCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network lb assign` command with the parent `network lb` command
+// and binds the flags for the `lbAssignOptions` struct.
 func init() {
 	NetworkLbCmd.AddCommand(NetworkLbAssignCmd)
 	_ = cli.BindFlagsFromStruct(NetworkLbAssignCmd, &lbAssignOpts)

@@ -10,13 +10,18 @@ import (
 	"github.com/virak-cloud/cli/pkg/http"
 )
 
+// zoneServicesOptions holds the options for the `zone services` command.
+// These options are populated from command-line flags.
 type zoneServicesOptions struct {
+	// ZoneID is the ID of the zone to list services for.
+	// This is optional if a default zone is set in the config.
 	ZoneID string `flag:"zoneId" desc:"Zone ID to use (optional if default.zoneId is set in config, overrides positional argument if set)"`
 }
 
 var servicesOpt zoneServicesOptions
 
-// servicesCmd represents the services command
+// servicesCmd represents the `zone services` command.
+// It shows the active services for a specific zone.
 var servicesCmd = &cobra.Command{
 	Use:   "services",
 	Short: "Show active services for a specific zone",
@@ -52,6 +57,8 @@ var servicesCmd = &cobra.Command{
 	},
 }
 
+// init registers the `zone services` command with the parent `zone` command
+// and binds the flags for the `zoneServicesOptions` struct.
 func init() {
 	ZoneCmd.AddCommand(servicesCmd)
 	_ = cli.BindFlagsFromStruct(servicesCmd, &servicesOpt)

@@ -11,15 +11,23 @@ import (
 	"github.com/virak-cloud/cli/pkg/http"
 )
 
+// recordDeleteOptions holds the options for the `dns record delete` command.
+// These options are populated from command-line flags.
 type recordDeleteOptions struct {
+	// Domain is the name of the domain to delete the record from.
 	Domain    string `flag:"domain" usage:"Domain name"`
+	// Record is the name of the DNS record to delete.
 	Record    string `flag:"record" usage:"Record name"`
+	// Type is the type of the DNS record to delete.
 	Type      string `flag:"type" usage:"Record type"`
+	// ContentID is the ID of the content to delete.
 	ContentID string `flag:"content-id" usage:"Content ID"`
 }
 
 var recordDeleteOpts recordDeleteOptions
 
+// recordDeleteCmd represents the `dns record delete` command.
+// It deletes a DNS record from a domain.
 var recordDeleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete a record for a domain",
@@ -60,6 +68,8 @@ var recordDeleteCmd = &cobra.Command{
 	},
 }
 
+// init registers the `dns record delete` command with the parent `dns record` command
+// and binds the flags for the `recordDeleteOptions` struct.
 func init() {
 	recordCmd.AddCommand(recordDeleteCmd)
 	_ = cli.BindFlagsFromStruct(recordDeleteCmd, &recordDeleteOpts)

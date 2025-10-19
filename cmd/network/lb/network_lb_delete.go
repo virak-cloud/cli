@@ -9,15 +9,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// lbDeleteOptions holds the options for the `network lb delete` command.
+// These options are populated from command-line flags.
 type lbDeleteOptions struct {
+	// ZoneID is the ID of the zone where the load balancer is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID    string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network where the load balancer is located.
 	NetworkID string `flag:"networkId" usage:"Network ID for the load balancer"`
+	// RuleID is the ID of the load balancer rule to be deleted.
 	RuleID    string `flag:"ruleId" usage:"Load balancer rule ID"`
 }
 
 var lbDeleteOpts lbDeleteOptions
 
-// NetworkLbDeleteCmd is the command for deleting a load balancing rule.
+// NetworkLbDeleteCmd represents the `network lb delete` command.
+// It deletes a load balancing rule by its ID.
 var NetworkLbDeleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete a load balancing rule by its ID",
@@ -53,6 +60,8 @@ var NetworkLbDeleteCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network lb delete` command with the parent `network lb` command
+// and binds the flags for the `lbDeleteOptions` struct.
 func init() {
 	NetworkLbCmd.AddCommand(NetworkLbDeleteCmd)
 	_ = cli.BindFlagsFromStruct(NetworkLbDeleteCmd, &lbDeleteOpts)

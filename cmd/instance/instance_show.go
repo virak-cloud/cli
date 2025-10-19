@@ -15,14 +15,25 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// showOptions holds the options for the `instance show` command.
+// These options are populated from command-line flags or through the interactive mode.
 type showOptions struct {
+	// ZoneID is the ID of the zone where the instance is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// InstanceID is the ID of the instance to be shown.
 	InstanceID  string `flag:"instanceId" usage:"Instance ID"`
+	// Interactive specifies whether to run the command in interactive mode.
 	Interactive bool   `flag:"interactive" usage:"Run interactive instance selection workflow"`
 }
 
 var showOpt showOptions
 
+// instanceShowCmd represents the `instance show` command.
+// It shows the details of a specific virtual machine instance.
+// The command can be run in two modes:
+// - Non-interactive: The instance ID is provided as a flag.
+// - Interactive: The command prompts the user to select an instance to show from a list of available instances.
 var instanceShowCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Show details of an instance",
@@ -92,6 +103,7 @@ var instanceShowCmd = &cobra.Command{
 	},
 }
 
+// renderInstanceDetails renders a table with the details of an instance.
 func renderInstanceDetails(inst responses.Instance) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Field", "Value"})
@@ -114,6 +126,8 @@ func renderInstanceDetails(inst responses.Instance) {
 	table.Render()
 }
 
+// init registers the `instance show` command with the parent `instance` command
+// and binds the flags for the `showOptions` struct.
 func init() {
 	InstanceCmd.AddCommand(instanceShowCmd)
 	_ = cli.BindFlagsFromStruct(instanceShowCmd, &showOpt)

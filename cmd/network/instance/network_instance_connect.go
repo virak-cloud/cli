@@ -9,16 +9,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Step 1: Define options struct
+// networkInstanceConnectOptions holds the options for the `network instance connect` command.
+// These options are populated from command-line flags.
 type networkInstanceConnectOptions struct {
+	// ZoneID is the ID of the zone where the network and instance are located.
+	// This is optional if a default zone is set in the config.
 	ZoneID     string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to connect the instance to.
 	NetworkID  string `flag:"networkId" usage:"Network ID"`
+	// InstanceID is the ID of the instance to be connected.
 	InstanceID string `flag:"instanceId" usage:"Instance ID"`
 }
 
 var networkInstanceConnectOpt networkInstanceConnectOptions
 
-// NetworkInstanceConnectCmd is the command for connecting an instance to a network.
+// NetworkInstanceConnectCmd represents the `network instance connect` command.
+// It connects an instance to a network.
 var NetworkInstanceConnectCmd = &cobra.Command{
 	Use:   "connect",
 	Short: "Connect an instance to a network",
@@ -54,6 +60,8 @@ var NetworkInstanceConnectCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network instance connect` command with the parent `network instance` command
+// and binds the flags for the `networkInstanceConnectOptions` struct.
 func init() {
 	NetworkInstanceCmd.AddCommand(NetworkInstanceConnectCmd)
 	_ = cli.BindFlagsFromStruct(NetworkInstanceConnectCmd, &networkInstanceConnectOpt)

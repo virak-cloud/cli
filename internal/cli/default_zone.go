@@ -6,7 +6,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-// SetDefaultZone sets the default zone ID and name in the config and writes it to disk.
+// SetDefaultZone sets the default zone ID and name in the viper configuration
+// and writes the configuration to disk.
 func SetDefaultZone(zoneID, zoneName string) error {
 	viper.Set("default.zoneId", zoneID)
 	viper.Set("default.zoneName", zoneName)

@@ -12,12 +12,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// volumeServiceOfferingListOptions holds the options for the `instance volume service-offering-list` command.
+// These options are populated from command-line flags.
 type volumeServiceOfferingListOptions struct {
+	// ZoneID is the ID of the zone to list volume service offerings from.
+	// This is optional if a default zone is set in the config.
 	ZoneID string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
 }
 
 var volumeSoListOpt volumeServiceOfferingListOptions
 
+// instanceVolumeServiceOfferingListCmd represents the `instance volume service-offering-list` command.
+// It lists all available service offerings for data volumes in a specified zone.
 var instanceVolumeServiceOfferingListCmd = &cobra.Command{
 	Use:     "service-offering-list",
 	Aliases: []string{"offering", "offerings", "service-offerings"},
@@ -44,6 +50,7 @@ var instanceVolumeServiceOfferingListCmd = &cobra.Command{
 	},
 }
 
+// renderInstanceVolumeServiceOfferings renders a table of instance volume service offerings.
 func renderInstanceVolumeServiceOfferings(resp *responses.InstanceVolumeServiceOfferingListResponse) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"ID", "Name", "Description", "Size", "Price", "Public", "Featured"})
@@ -61,6 +68,8 @@ func renderInstanceVolumeServiceOfferings(resp *responses.InstanceVolumeServiceO
 	table.Render()
 }
 
+// init registers the `instance volume service-offering-list` command with the parent `instance volume` command
+// and binds the flags for the `volumeServiceOfferingListOptions` struct.
 func init() {
 	instanceVolumeCmd.AddCommand(instanceVolumeServiceOfferingListCmd)
 	_ = cli.BindFlagsFromStruct(instanceVolumeServiceOfferingListCmd, &volumeSoListOpt)

@@ -12,13 +12,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// showOptions holds the options for the `cluster show` command.
+// These options are populated from command-line flags.
 type showOptions struct {
+	// ZoneID is the ID of the zone where the cluster is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID    string `flag:"zoneId" usage:"Zone ID (optional if default.zoneId is set in config)"`
+	// ClusterID is the ID of the cluster to be shown.
 	ClusterID string `flag:"clusterId" usage:"Cluster ID"`
 }
 
 var showOpts showOptions
 
+// kubernetesClusterShowCmd represents the `cluster show` command.
+// It shows the details of a specific Kubernetes cluster.
 var kubernetesClusterShowCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Show a kubernetes cluster",
@@ -60,6 +67,8 @@ var kubernetesClusterShowCmd = &cobra.Command{
 	},
 }
 
+// init registers the `cluster show` command with the parent `cluster` command
+// and binds the flags for the `showOptions` struct.
 func init() {
 	KubernetesClusterCmd.AddCommand(kubernetesClusterShowCmd)
 	_ = cli.BindFlagsFromStruct(kubernetesClusterShowCmd, &showOpts)

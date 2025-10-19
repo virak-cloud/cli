@@ -10,17 +10,24 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Step 1: Define options struct
+// networkInstanceDisconnectOptions holds the options for the `network instance disconnect` command.
+// These options are populated from command-line flags.
 type networkInstanceDisconnectOptions struct {
+	// ZoneID is the ID of the zone where the network and instance are located.
+	// This is optional if a default zone is set in the config.
 	ZoneID            string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// NetworkID is the ID of the network to disconnect the instance from.
 	NetworkID         string `flag:"networkId" usage:"Network ID"`
+	// InstanceID is the ID of the instance to be disconnected.
 	InstanceID        string `flag:"instanceId" usage:"Instance ID"`
+	// InstanceNetworkID is the ID of the instance's network interface to be disconnected.
 	InstanceNetworkID string `flag:"instanceNetworkId" usage:"Instance Network ID"`
 }
 
 var networkInstanceDisConnectOpt networkInstanceDisconnectOptions
 
-// NetworkInstanceDisconnectCmd is the command for disconnecting an instance from a network.
+// NetworkInstanceDisconnectCmd represents the `network instance disconnect` command.
+// It disconnects an instance from a network.
 var NetworkInstanceDisconnectCmd = &cobra.Command{
 	Use:   "disconnect",
 	Short: "Disconnect an instance from a network",
@@ -61,6 +68,8 @@ var NetworkInstanceDisconnectCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network instance disconnect` command with the parent `network instance` command
+// and binds the flags for the `networkInstanceDisconnectOptions` struct.
 func init() {
 	NetworkInstanceCmd.AddCommand(NetworkInstanceDisconnectCmd)
 	_ = cli.BindFlagsFromStruct(NetworkInstanceDisconnectCmd, &networkInstanceDisConnectOpt)

@@ -1,3 +1,8 @@
+// Package responses defines data structures for API responses in the Virak Cloud CLI.
+//
+// This file contains response type definitions for virtual machine instance operations,
+// including instance metadata, service offerings, VM images, volumes, snapshots,
+// and metrics. These structures provide type-safe access to API response data.
 package responses
 
 import (
@@ -6,32 +11,60 @@ import (
 	"strconv"
 )
 
+// InstanceListResponse represents the response from listing instances.
+//
+// Contains a collection of instance objects returned by the ListInstances API call.
 type InstanceListResponse struct {
 	Data []Instance `json:"data"`
 }
 
+// Instance represents a virtual machine instance with all its configuration and status.
+//
+// This struct provides comprehensive information about an instance including
+// hardware specifications, network configuration, storage, and operational status.
 type Instance struct {
-	ID                  string                   `json:"id"`
-	CustomerID          string                   `json:"customer_id"`
-	Name                string                   `json:"name"`
-	ZoneID              string                   `json:"zone_id"`
-	Created             bool                     `json:"created"`
-	TemplateID          *string                  `json:"template_id"`
-	VMImage             *InstanceVMImage         `json:"vm_image"`
-	Zone                *InstanceZone            `json:"zone"`
-	ServiceOffering     *InstanceServiceOffering `json:"service_offering"`
-	DiskOfferingID      *string                  `json:"disk_offering_id"`
-	ServiceOfferingID   string                   `json:"service_offering_id"`
-	Status              string                   `json:"status"`
-	InstanceStatus      string                   `json:"instance_status"`
-	Password            string                   `json:"password"`
-	Username            string                   `json:"username"`
-	CreatedAt           int64                    `json:"created_at"`
-	UpdatedAt           int64                    `json:"updated_at"`
-	KubernetesClusterID *string                  `json:"kubernetes_cluster_id"`
-	Metadata            []interface{}            `json:"metadata"`
-	DataVolumes         []interface{}            `json:"data_volumes"`
-	Snapshot            []InstanceSnapshot       `json:"snapshot"`
+	// ID is the unique identifier for the instance.
+	ID string `json:"id"`
+	// CustomerID is the unique identifier for the customer who owns the instance.
+	CustomerID string `json:"customer_id"`
+	// Name is the human-readable name assigned to the instance.
+	Name string `json:"name"`
+	// ZoneID is the unique identifier of the zone where the instance is located.
+	ZoneID string `json:"zone_id"`
+	// Created indicates whether the instance has been fully provisioned.
+	Created bool `json:"created"`
+	// TemplateID is the ID of the template used (if applicable).
+	TemplateID *string `json:"template_id"`
+	// VMImage contains information about the operating system image.
+	VMImage *InstanceVMImage `json:"vm_image"`
+	// Zone contains zone information where the instance is deployed.
+	Zone *InstanceZone `json:"zone"`
+	// ServiceOffering contains the hardware specifications for the instance.
+	ServiceOffering *InstanceServiceOffering `json:"service_offering"`
+	// DiskOfferingID is the ID of the disk offering used (if applicable).
+	DiskOfferingID *string `json:"disk_offering_id"`
+	// ServiceOfferingID is the ID of the service offering used.
+	ServiceOfferingID string `json:"service_offering_id"`
+	// Status is the current operational status of the instance.
+	Status string `json:"status"`
+	// InstanceStatus provides detailed status information.
+	InstanceStatus string `json:"instance_status"`
+	// Password is the initial password for instance access.
+	Password string `json:"password"`
+	// Username is the default username for instance access.
+	Username string `json:"username"`
+	// CreatedAt is the timestamp when the instance was created (Unix epoch).
+	CreatedAt int64 `json:"created_at"`
+	// UpdatedAt is the timestamp when the instance was last updated (Unix epoch).
+	UpdatedAt int64 `json:"updated_at"`
+	// KubernetesClusterID is the ID of the Kubernetes cluster (if part of one).
+	KubernetesClusterID *string `json:"kubernetes_cluster_id"`
+	// Metadata contains additional instance metadata.
+	Metadata []interface{} `json:"metadata"`
+	// DataVolumes contains information about attached data volumes.
+	DataVolumes []interface{} `json:"data_volumes"`
+	// Snapshot contains information about instance snapshots.
+	Snapshot []InstanceSnapshot `json:"snapshot"`
 }
 
 type InstanceServiceOfferingListResponse struct {

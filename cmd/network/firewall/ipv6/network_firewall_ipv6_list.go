@@ -12,13 +12,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// firewallIPv6ListOptions holds the options for the `network firewall ipv6 list` command.
+// These options are populated from command-line flags.
 type firewallIPv6ListOptions struct {
+	// ZoneId is the ID of the zone where the network is located.
+	// This is optional if a default zone is set in the config.
 	ZoneId    string `flag:"zoneId" desc:"Zone ID (optional if default.zoneId is set in config)"`
+	// NetworkId is the ID of the network to list the firewall rules for.
 	NetworkId string `flag:"networkId" desc:"Network ID (required)"`
 }
 
 var firewallIPv6ListOpts firewallIPv6ListOptions
 
+// NetworkFirewallIPv6ListCmd represents the `network firewall ipv6 list` command.
+// It lists all IPv6 firewall rules for a network.
 var NetworkFirewallIPv6ListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List IPv6 firewall rules for a network",
@@ -60,6 +67,8 @@ var NetworkFirewallIPv6ListCmd = &cobra.Command{
 	},
 }
 
+// init registers the `network firewall ipv6 list` command with the parent `network firewall ipv6` command
+// and binds the flags for the `firewallIPv6ListOptions` struct.
 func init() {
 	NetworkFirewallIPv6Cmd.AddCommand(NetworkFirewallIPv6ListCmd)
 	_ = cli.BindFlagsFromStruct(NetworkFirewallIPv6ListCmd, &firewallIPv6ListOpts)

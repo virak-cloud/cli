@@ -13,15 +13,27 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// deleteOptions holds the options for the `instance delete` command.
+// These options are populated from command-line flags or through the interactive mode.
 type deleteOptions struct {
+	// ZoneID is the ID of the zone where the instance is located.
+	// This is optional if a default zone is set in the config.
 	ZoneID      string `flag:"zoneId" usage:"Zone ID to use (optional if default.zoneId is set in config)"`
+	// InstanceID is the ID of the instance to be deleted.
 	InstanceID  string `flag:"instance-id" usage:"ID of the instance to delete"`
+	// Name is the name of the instance to be deleted.
 	Name        string `flag:"name" usage:"Name of the instance to delete"`
+	// Interactive specifies whether to run the command in interactive mode.
 	Interactive bool   `flag:"interactive" usage:"Run interactive instance deletion workflow"`
 }
 
 var deleteOpt deleteOptions
 
+// instanceDeleteCmd represents the `instance delete` command.
+// It deletes a virtual machine instance in a specified zone.
+// The command can be run in two modes:
+// - Non-interactive: The instance ID and name are provided as flags.
+// - Interactive: The command prompts the user to select an instance to delete from a list of available instances.
 var instanceDeleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete an instance",
@@ -113,6 +125,8 @@ var instanceDeleteCmd = &cobra.Command{
 	},
 }
 
+// init registers the `instance delete` command with the parent `instance` command
+// and binds the flags for the `deleteOptions` struct.
 func init() {
 	InstanceCmd.AddCommand(instanceDeleteCmd)
 	_ = cli.BindFlagsFromStruct(instanceDeleteCmd, &deleteOpt)
