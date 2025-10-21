@@ -23,6 +23,7 @@ A command-line interface for interacting with the [Virak Cloud API](https://api-
     - [From Source](#from-source)
 - [Usage](#usage)
 - [Authentication](#authentication)
+- [Documentation](#documentation)
 - [Commands](#commands)
   - [Authentication](#authentication-1)
   - [Bucket (Object Storage)](#bucket-object-storage)
@@ -151,6 +152,26 @@ This will open your browser for OAuth authentication. Alternatively, you can pro
 ```sh
 virak-cli login --token YOUR_TOKEN
 ```
+
+## Documentation
+
+For comprehensive documentation, guides, and tutorials, visit our [Documentation](docs/) directory.
+
+### Quick Links
+
+- [📖 Documentation Home](docs/) - Main documentation index
+- [🚀 Getting Started Guide](docs/user-guide/getting-started.md) - Learn the basics with hands-on examples
+- [🔧 Installation Guide](docs/user-guide/installation.md) - Detailed installation instructions
+- [🔐 Authentication Guide](docs/user-guide/authentication.md) - Set up authentication
+- [📚 Command Reference](docs/reference/) - Complete command documentation
+- [👨‍💻 Developer Documentation](docs/developer/) - For contributors and developers
+- [🛠️ Troubleshooting](docs/troubleshooting/) - Solutions to common issues
+
+### Popular Tutorials
+
+- [Deploying a Web Application](docs/user-guide/tutorials/deploying-web-app.md) - Deploy a scalable web application
+- [Setting Up Containers](docs/user-guide/tutorials/setting-up-containers.md) - Container deployment and management
+- [Managing Networks](docs/user-guide/tutorials/managing-networks.md) - Network configuration and security
 
 ## Commands
 
