@@ -97,7 +97,13 @@ type InstanceNetwork struct {
 	CreatedAt       int64                  `json:"created_at"`
 	Network         NetworkSummary         `json:"network"`
 	NetworkOffering NetworkOfferingSummary `json:"network_offering"`
-	SecondaryIPs    []string               `json:"secondary_ips"`
+	SecondaryIPs    []SecondaryIP          `json:"secondary_ips"`
+}
+
+type SecondaryIP struct {
+	ID        string `json:"id"`
+	IPAddress string `json:"ipaddress"`
+	CreatedAt int64  `json:"created_at"`
 }
 
 type NetworkSummary struct {
