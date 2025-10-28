@@ -11,15 +11,25 @@ import (
 
 // User-related API methods for the Client
 
+// GetUserProfile fetches the user's profile information.
+func (client *Client) GetUserProfile() (*responses.UserProfileResponse, error) {
+	var result responses.UserProfileResponse
+	url := fmt.Sprintf(urls.UserProfile, urls.BaseUrl)
+	err := client.handleRequest(http.MethodGet, url, nil, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
 // ValidateUserToken checks if the user's token is valid (204 No Content on success).
 func (client *Client) ValidateUserToken() error {
 	url := fmt.Sprintf(urls.UserTokenValidate, urls.BaseUrl)
-	_, err := client.Request("GET", url, nil)
+	err := client.handleRequest("GET", url, nil, nil)
 	if err != nil {
 		return fmt.Errorf("token validation failed: %w", err)
 	}
 	return nil
-
 }
 
 // GetUserTokenAbilities fetches the abilities associated with the user's token.

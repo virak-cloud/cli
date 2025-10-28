@@ -51,6 +51,7 @@ const (
 	UserBalance          string = "%s/user/finance/wallet"
 	UserPaymentList      string = "%s/user/finance/payments"
 	UserCostDocumentList string = "%s/user/finance/documents"
+	UserProfile          string = "%s/user/profile"
 	UserTokenAbilities   string = "%s/user/token-abilities"
 	UserTokenValidate    string = "%s/user/token"
 
@@ -88,6 +89,10 @@ const (
 	NetworkHaproxyLive              string = "%s/zone/%s/network/%s/ha/live"
 	NetworkHaproxyLog               string = "%s/zone/%s/network/%s/ha/log"
 
+	NetworkPortForwardList   string = "%s/zone/%s/network/%s/port-forward"
+	NetworkPortForwardCreate string = "%s/zone/%s/network/%s/port-forward"
+	NetworkPortForwardDelete string = "%s/zone/%s/network/%s/port-forward/%s"
+
 	NetworkServiceOfferingList string = "%s/zone/%s/network/service-offering"
 
 	InstanceList                string = "%s/zone/%s/instance"
@@ -100,6 +105,7 @@ const (
 	InstanceReboot              string = "%s/zone/%s/instance/%s/reboot"
 	InstanceDelete              string = "%s/zone/%s/instance/%s"
 	InstanceShow                string = "%s/zone/%s/instance/%s"
+	InstanceConsole             string = "%s/zone/%s/instance/%s/console"
 
 	InstanceMetricsURL                   string = "%s/zone/%s/instance/%s/metrics"
 	InstanceSnapshotCreateURL            string = "%s/zone/%s/instance/%s/snapshot"
@@ -111,4 +117,7 @@ const (
 	InstanceVolumeDeleteURL              string = "%s/zone/%s/instance/volumes/%s"
 	InstanceVolumeDetachURL              string = "%s/zone/%s/instance/volumes/%s/detach/%s"
 	InstanceVolumeAttachURL              string = "%s/zone/%s/instance/volumes/%s/attach/%s"
+
+	// Events
+	EventsList string = "%s/events"
 )

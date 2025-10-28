@@ -107,3 +107,19 @@ type CostDocumentsYearlyResponse struct {
 type PaymentListResponse struct {
 	Data []interface{} `json:"data"`
 }
+
+// Expense represents a single expense in the expenses list response.
+type Expense struct {
+	ID          string  `json:"id"`
+	Date        string  `json:"date"`
+	Type        string  `json:"type"`
+	Description string  `json:"description"`
+	Amount      float64 `json:"amount"`
+	Status      string  `json:"status"`
+	CreatedAt   string  `json:"created_at"`
+}
+
+// ExpensesListResponse represents the response for the expenses list endpoint.
+type ExpensesListResponse struct {
+	Data []Expense `json:"data"`
+}
