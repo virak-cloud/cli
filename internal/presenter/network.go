@@ -1,10 +1,11 @@
 package presenter
 
 import (
-	"github.com/virak-cloud/cli/pkg/http/responses"
+	"fmt"
 	"os"
 
 	"github.com/olekukonko/tablewriter"
+	"github.com/virak-cloud/cli/pkg/http/responses"
 )
 
 func RenderNetworkDetail(network responses.Network) {
@@ -38,6 +39,16 @@ func RenderInstanceNetworkList(instances []responses.InstanceNetwork) {
 			isDefault = "Yes"
 		}
 		table.Append([]string{instance.ID, instance.InstanceID, instance.IPAddress, instance.Network.Name, isDefault})
+	}
+	table.Render()
+}
+
+func RenderPortForwardList(rules []responses.PortForwardRule) {
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"ID", "Protocol", "Public Port", "Private Port", "Private IP", "Status", "Created At"})
+
+	for _, rule := range rules {
+		table.Append([]string{rule.ID, rule.Protocol, fmt.Sprintf("%d", rule.PublicPort), fmt.Sprintf("%d", rule.PrivatePort), rule.PrivateIP, rule.Status, fmt.Sprintf("%d", rule.CreatedAt)})
 	}
 	table.Render()
 }

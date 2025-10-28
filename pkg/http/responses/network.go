@@ -254,3 +254,26 @@ type HaproxyLogResponse struct {
 type NetworkServiceOfferingListResponse struct {
 	Data []NetworkOffering `json:"data"`
 }
+
+// Port Forwarding responses
+
+type PortForwardRule struct {
+	ID         string `json:"id"`
+	NetworkID  string `json:"network_id"`
+	Protocol   string `json:"protocol"`
+	PublicPort int    `json:"public_port"`
+	PrivatePort int   `json:"private_port"`
+	PrivateIP  string `json:"private_ip"`
+	Status     string `json:"status"`
+	CreatedAt  int64  `json:"created_at"`
+}
+
+type PortForwardListResponse struct {
+	Data []PortForwardRule `json:"data"`
+}
+
+type PortForwardActionResponse struct {
+	Data struct {
+		Success bool `json:"success"`
+	} `json:"data"`
+}

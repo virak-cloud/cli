@@ -405,3 +405,38 @@ func (client *Client) GetL3NetworkServiceOfferings(zoneId string) (*responses.Ne
 		Data: l3Offerings,
 	}, nil
 }
+
+// List Port Forwarding Rules
+func (client *Client) ListPortForwards(zoneId, networkId string) (*responses.PortForwardListResponse, error) {
+	var result responses.PortForwardListResponse
+	url := fmt.Sprintf(urls.NetworkPortForwardList, urls.BaseUrl, zoneId, networkId)
+	if err := client.handleRequest(http.MethodGet, url, nil, &result); err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+// Create Port Forwarding Rule
+func (client *Client) CreatePortForward(zoneId string, request map[string]interface{}) (*responses.PortForwardActionResponse, error) {
+	var result responses.PortForwardActionResponse
+	networkId := request["network_id"].(string)
+	url := fmt.Sprintf(urls.NetworkPortForwardCreate, urls.BaseUrl, zoneId, networkId)
+	jsonBody, err := json.Marshal(request)
+	if err != nil {
+		return nil, err
+	}
+	if err := client.handleRequest(http.MethodPost, url, bytes.NewBuffer(jsonBody), &result); err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+// Delete Port Forwarding Rule
+func (client *Client) DeletePortForward(zoneId, ruleId string) (*responses.PortForwardActionResponse, error) {
+	var result responses.PortForwardActionResponse
+	url := fmt.Sprintf("%s/zone/%s/port-forward/%s", urls.BaseUrl, zoneId, ruleId)
+	if err := client.handleRequest(http.MethodDelete, url, nil, &result); err != nil {
+		return nil, err
+	}
+	return &result, nil
+}

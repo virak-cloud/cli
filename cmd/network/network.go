@@ -5,6 +5,7 @@ import (
 	"github.com/virak-cloud/cli/cmd/network/firewall"
 	"github.com/virak-cloud/cli/cmd/network/instance"
 	"github.com/virak-cloud/cli/cmd/network/lb"
+	portforward "github.com/virak-cloud/cli/cmd/network/port-forward"
 	publicip "github.com/virak-cloud/cli/cmd/network/public-ip"
 
 	"github.com/virak-cloud/cli/cmd/network/vpn"
@@ -23,6 +24,7 @@ func init() {
 	NetworkCmd.AddCommand(firewall.NetworkFirewallCmd)
 	NetworkCmd.AddCommand(instance.NetworkInstanceCmd)
 	NetworkCmd.AddCommand(lb.NetworkLbCmd)
+	NetworkCmd.AddCommand(portforward.NetworkPortForwardCmd)
 	NetworkCmd.AddCommand(publicip.NetworkPublicIPCmd)
 	NetworkCmd.AddCommand(vpn.NetworkVpnCmd)
 }
