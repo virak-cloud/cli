@@ -274,3 +274,14 @@ func (client *Client) ShowInstance(zoneId, instanceId string) (*responses.Instan
 	}
 	return &result, nil
 }
+
+// Get Instance Console
+func (client *Client) GetInstanceConsole(zoneId, instanceId string) (*responses.InstanceConsoleResponse, error) {
+	var result responses.InstanceConsoleResponse
+	url := fmt.Sprintf(urls.InstanceConsole, urls.BaseUrl, zoneId, instanceId)
+	err := client.handleRequest(http.MethodGet, url, nil, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
