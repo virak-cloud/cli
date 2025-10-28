@@ -230,6 +230,14 @@ type InstanceShowResponse struct {
 	Data Instance `json:"data"`
 }
 
+type InstanceConsoleResponse struct {
+	Data InstanceConsole `json:"data"`
+}
+
+type InstanceConsole struct {
+	URL string `json:"url"`
+}
+
 type VolumeListResponse struct {
 	Data []Volume `json:"data"`
 }
