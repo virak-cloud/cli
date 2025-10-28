@@ -31,6 +31,8 @@ A command-line interface for interacting with the [Virak Cloud API](https://api-
   - [Kubernetes Clusters](#kubernetes-clusters)
   - [Network](#network)
   - [Zone](#zone)
+  - [Finance](#finance)
+  - [User](#user)
 - [Project Structure](#project-structure)
 - [Configuration](#configuration)
 - [Development](#development)
@@ -152,6 +154,12 @@ This will open your browser for OAuth authentication. Alternatively, you can pro
 virak-cli login --token YOUR_TOKEN
 ```
 
+You can also use the command aliases `log-in` or `auth`:
+
+```sh
+virak-cli log-in --token YOUR_TOKEN
+```
+
 ## Commands
 
 The following commands are available:
@@ -243,6 +251,9 @@ The following commands are available:
 * `virak-cli network public-ip list`: List all public IPs
 * `virak-cli network public-ip staticnat disable`: Disable static NAT
 * `virak-cli network public-ip staticnat enable`: Enable static NAT
+* `virak-cli network port-forward create`: Create a port forwarding rule
+* `virak-cli network port-forward delete`: Delete a port forwarding rule
+* `virak-cli network port-forward list`: List port forwarding rules
 * `virak-cli network service-offering list`: List all network service offerings
 * `virak-cli network show`: Show details of a network
 * `virak-cli network vpn disable`: Disable VPN
@@ -256,6 +267,19 @@ The following commands are available:
 * `virak-cli zone resources`: Manage zone resources
 * `virak-cli zone services`: Manage zone services
 
+### Finance
+* `virak-cli finance wallet`: Manage wallet balances
+* `virak-cli finance documents`: Manage cost documents
+* `virak-cli finance payments`: Manage payments
+
+### User
+* `virak-cli user profile`: Show user profile
+* `virak-cli user ssh-key create`: Create SSH key
+* `virak-cli user ssh-key delete`: Delete SSH key
+* `virak-cli user ssh-key list`: List SSH keys
+* `virak-cli user token abilities`: View token abilities
+* `virak-cli user token validate`: Validate token
+
 ## Project Structure
 
 ```
@@ -264,8 +288,10 @@ virak-cli/
 │   ├── bucket/                   # Bucket (Object Storage) commands
 │   ├── cluster/                  # Kubernetes cluster commands
 │   ├── dns/                      # DNS management commands
+│   ├── finance/                  # Finance commands
 │   ├── instance/                 # VM instance commands
 │   ├── network/                  # Network management commands
+│   ├── user/                     # User management commands
 │   ├── zone/                     # Zone management commands
 │   ├── login.go                  # Authentication login
 │   ├── logout.go                 # Authentication logout
