@@ -6,8 +6,10 @@ import (
 	bucket "github.com/virak-cloud/cli/cmd/bucket"
 	"github.com/virak-cloud/cli/cmd/cluster"
 	"github.com/virak-cloud/cli/cmd/dns"
+	"github.com/virak-cloud/cli/cmd/finance"
 	"github.com/virak-cloud/cli/cmd/instance"
 	"github.com/virak-cloud/cli/cmd/network"
+	"github.com/virak-cloud/cli/cmd/user"
 	"github.com/virak-cloud/cli/cmd/zone"
 	"github.com/virak-cloud/cli/internal/logger"
 	"os"
@@ -48,9 +50,12 @@ func init() {
 	RootCmd.AddCommand(bucket.ObjectStorageCmd)
 	RootCmd.AddCommand(instance.InstanceCmd)
 	RootCmd.AddCommand(network.NetworkCmd)
+	RootCmd.AddCommand(user.UserCmd)
 	RootCmd.AddCommand(zone.ZoneCmd)
 	RootCmd.AddCommand(cluster.KubernetesClusterCmd)
 	RootCmd.AddCommand(dns.DnsCmd)
+	// RootCmd.AddCommand(events.EventsCmd) // Commented out as events package is not implemented
+	RootCmd.AddCommand(finance.FinanceCmd)
 
 }
 
