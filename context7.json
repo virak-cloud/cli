@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://context7.com/schema/context7.json",
+  "projectTitle": "Virak CLI",
+  "description": "A command-line interface for managing Virak Cloud resources, including authentication, buckets, DNS, instances, Kubernetes, networks, and more.",
+  "branch": "master",
+  "folders": [
+    "docs",
+    "."
+  ],
+  "excludeFolders": [
+    "cmd",
+    "internal",
+    "pkg",
+    "windows",
+    ".github"
+  ],
+  "excludeFiles": [
+    "go.mod",
+    "go.sum"
+  ],
+  "rules": [
+    "Authenticate once, then reuse: run `virak-cli login` (or `virak-cli login --token <token>`) to open the OAuth flow or provide a scoped API token and rely on the saved credential in `~/.virak-cli.yaml` so subsequent commands inherit the session without retyping tokens.",
+    "Set a default zone: store `default.zoneId`/`default.zoneName` in the config file or pass `--zoneId`, allowing `bucket`, `dns`, `instance`, `network`, and other commands to pick up the saved defaults and avoid repeated flags.",
+    "Use environment variables in automation: export `VIRAK_CLI_TOKEN`, `VIRAK_CLI_ZONE_ID`, and related secrets in CI/CD pipelines rather than committing credentials, matching the docs' guidance for secure automation and rotation."
+  ],
+  "previousVersions": []
+}
