@@ -33,6 +33,7 @@ A command-line interface for interacting with the [Virak Cloud API](https://api-
   - [Zone](#zone)
   - [Finance](#finance)
   - [User](#user)
+- [Documentation](#documentation)
 - [Project Structure](#project-structure)
 - [Configuration](#configuration)
 - [Development](#development)
@@ -279,6 +280,22 @@ The following commands are available:
 * `virak-cli user ssh-key list`: List SSH keys
 * `virak-cli user token abilities`: View token abilities
 * `virak-cli user token validate`: Validate token
+
+## Documentation
+
+For detailed CLI usage guides and examples, see the [CLI Guides](docs/) directory:
+
+- [CLI Overview](docs/overview.md) - Getting started with the CLI
+- [Instances](docs/instances.md) - Managing virtual machines
+- [Networks](docs/networks.md) - Network and firewall management
+- [DNS](docs/dns.md) - Domain and DNS record management
+- [Buckets](docs/buckets.md) - Object storage operations
+- [Kubernetes](docs/kubernetes.md) - Cluster management
+- [Finance](docs/finance.md) - Billing and payments
+- [User](docs/user.md) - Account and SSH key management
+- [Zones](docs/zones.md) - Zone and region management
+
+These guides provide CLI equivalents for panel operations with practical examples.
 
 ## Project Structure
 
