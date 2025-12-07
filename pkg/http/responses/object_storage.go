@@ -4,6 +4,7 @@ type ObjectStorageBucket struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
 	URL       string `json:"url"`
+	Region    string `json:"region"`
 	AccessKey string `json:"access_key"`
 	SecretKey string `json:"secret_key"`
 	Status    string `json:"status"`
